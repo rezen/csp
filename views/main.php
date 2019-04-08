@@ -5,7 +5,7 @@
     <meta data-doc-id="<?php echo $doc_id ?>" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One" />
     <link rel="stylesheet" href="assets/app.css?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash('assets/app.css'); ?>" />
-    <link rel="stylesheet" href="assets/bad.css?v=<?php echo time();  ?>" />
+    <link rel="stylesheet" href="assets/bad.php?v=<?php echo time();  ?>" />
     <script src="assets/app.js?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash('assets/app.js'); ?>"></script>
   </head>
   

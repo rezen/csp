@@ -1,7 +1,8 @@
 <?php namespace CSP;
 
 class Policy
-{
+{   
+    public $isReportOnly = false;
     public $sampleAll = false;
 
     public $directives = [];

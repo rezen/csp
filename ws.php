@@ -41,6 +41,7 @@ class Reporter implements MessageComponentInterface
         }
 
         array_map(function($msg) use ($conn) {
+            // @todo parse msg & add data using page hash
             $conn->send($msg);
         }, array_key_exists($data['id'], $this->backlog) ? $this->backlog[$data['id']]: []);
 

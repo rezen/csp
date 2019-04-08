@@ -43,8 +43,14 @@ $policy->addDirective("style-src", [
   $report_url
 ]);
 
-// Content-Security-Policy-Report-Only:
-header("Content-Security-Policy: " . $policy->toString());
+$policy->isReportOnly = isset($_GET['ro']);
+
+if ($policy->isReportOnly) {
+  header("Content-Security-Policy-Report-Only: " . $policy->toString());
+} else {
+  header("Content-Security-Policy: " . $policy->toString());
+}
+
 header("Report-To: " . json_encode([
   "group"     => "csp",
   "max_age"   => 10886400,

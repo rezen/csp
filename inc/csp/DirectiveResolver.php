@@ -9,6 +9,11 @@ class DirectiveResolver
         $this->directiveNames = is_array($directiveNames) ? $directiveNames : [];
     }
 
+    function getNames()
+    {
+        return $this->directiveNames;
+    }
+
     function isValidDirective($name)
     {
         return in_array($name, $this->directiveNames);

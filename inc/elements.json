@@ -77,7 +77,7 @@
         "id": "style-self-external-2",
         "label": "Style from stylesheet",
         "html": [
-            "<p id='{{ id }}'>Secrets?<\/p> <input type='password' name='password' value='xyz123' \/>"
+            "<p id='{{ id }}'>Secrets?<\/p> <input type='PassWord' name='password' value='love4ever' \/>"
         ],
         "category": "style-src"
     },
