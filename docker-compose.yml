@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  web:
+    depends_on: 
+      - ws
+    build:
+      context: . 
+      dockerfile: Dockerfile.web
+    volumes:
+      - ./:/var/www/html/
+    ports:
+      - "8100:80"
+  
+  ws:
+    build:
+      context: . 
+      dockerfile: Dockerfile.ws
+
+    volumes:
+      - ./:/var/www/html/
+    working_dir: /var/www/html/
+    command: bash -c "( [ ! -d ./vendor ] && composer install ); php ws.php"
+    ports:
+      - "8110:8110"

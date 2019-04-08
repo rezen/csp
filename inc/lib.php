@@ -52,3 +52,23 @@ function fixScript($element, $nonce) {
       return $element;  
     }, $elements);
   }
+
+function policyHash($policy) {
+    $policy = preg_replace('/nonce-[a-z0-9]+/', 'nonce-', $policy);
+    $parts = str_split($policy);
+    sort($parts);
+    return md5(implode('', $parts));
+}
+
+function printSafe($data) {
+  if (!is_array($data)) {
+    return;
+  }
+
+  echo PHP_EOL;
+  foreach ($data as $key => $value) {
+    $val = strval($value);
+    echo "[" . htmlentities($key) . "] => " . htmlentities($val) . PHP_EOL;
+  }
+  echo PHP_EOL;
+}

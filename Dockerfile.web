@@ -1,0 +1,2 @@
+FROM php:7.2.2-apache
+RUN  sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf

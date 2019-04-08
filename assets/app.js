@@ -1,4 +1,24 @@
+'use strict';
 
+window.requestIdleCallback =
+  window.requestIdleCallback ||
+  function (cb) {
+    var start = Date.now();
+    return setTimeout(function () {
+      cb({
+        didTimeout: false,
+        timeRemaining: function () {
+          return Math.max(0, 50 - (Date.now() - start));
+        }
+      });
+    }, 1);
+  }
+
+window.cancelIdleCallback =
+  window.cancelIdleCallback ||
+  function (id) {
+    clearTimeout(id);
+  }
 // start:localAjax
 function localAjax() {
     fetch('ajax.php')
@@ -76,15 +96,21 @@ function websocketCsp() {
     </tr>`;
     var conn = {};
     var id = document.querySelector('[data-doc-id]').getAttribute('data-doc-id');
+    var hash = document.querySelector('[pagehash]').getAttribute('pagehash');
+
     try {
-        conn = new WebSocket('ws://localhost:8081?id=' + id);
-    } catch (e) {}
+        conn = new WebSocket('ws://localhost:8110?id=' + id + "&h=" + hash);
+        console.log(conn);
+    } catch (e) {
+        console.log("A websocket", e);
+    }
     
     conn.onopen = function(e) {
         console.log("Connection established!");
     };
 
     conn.onmessage = function(e) {
+        console.log("on-message");
         var reports = document.getElementById('csp-reports');
         var lines = e.data
             .split("\n")
@@ -96,7 +122,6 @@ function websocketCsp() {
                     return line.trim();
                 }
             })
-            .map(d => d['csp-report'])
             .filter(d => !!d)
             .map(d => {
                 var el = document.importNode(rowTemplate.content, true);
@@ -132,13 +157,16 @@ document.addEventListener('DOMContentLoaded', function() {
         stripeExample,
         evalExample,
         cdnD3,
-        websocketCsp
     ].map(function(fn) {
         try {
             fn();
         } catch (e) {
             console.error(e);
         }
+    });
+
+    window.requestIdleCallback(function() {
+        websocketCsp();
     });
 });
 

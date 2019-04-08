@@ -1,9 +1,13 @@
 # CSP
 
 ```sh
+# Run with docker ....
+docker-compose up
+
+# ... or just with php
+composer install
 php -S 127.0.0.1:8000 -t ./
 ```
-
 
 ### Links
 - https://www.html5rocks.com/en/tutorials/security/content-security-policy/
