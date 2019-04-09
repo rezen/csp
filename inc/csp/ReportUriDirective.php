@@ -2,6 +2,11 @@
 
 class ReportUriDirective extends Directive 
 {
+    function addSource($source)
+    {
+        $this->sources = [$source];
+    }
+
     function isValidSource($source)
     {
         $parsed = parse_url($source);

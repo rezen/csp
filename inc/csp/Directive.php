@@ -81,8 +81,18 @@ class Directive
         return array_map([$this, 'addSource'], $sources);
     }
 
+    function isEmpty()
+    {
+        return count($this->sources) === 0;
+    }
+
     function addSource($source)
     {
+        if (strlen($source) === 0) {
+            // @todo invalid?
+            return;
+        }
+    
         $source = trim($source);
         if (!$this->isValidSource($source)) {
             throw new \Exception("Invalid source $source");
@@ -98,11 +108,15 @@ class Directive
         }
     }
 
-    function toString()
+    function sourcesAsString()
     {
         $sources = $this->sources;
         sort($sources);
-        return $this->name . " " . implode(" ", $sources);
+        return implode(" ", $sources);
+    }
+    function toString()
+    {
+        return $this->name . " " . $this->sourcesAsString();
     }
 
     static function fromString($directive)

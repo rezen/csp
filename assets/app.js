@@ -150,6 +150,83 @@ function generateBlobImage() {
 }
 
 
+function cspForm() {
+    // @todo prevent selection of existing directive
+    function notSelected() {
+        var selects = document.querySelectorAll('#csp-directives select');
+        var opts = Array.from(selects[0].querySelectorAll('option')).map(function(el) {
+            return el.innerText;
+        });
+        var selected = Array.from(selects).map(function(el) {
+            return el.value;
+        })
+
+        return opts.findIndex(function(o) {
+            return !selected.includes(o);
+        });
+    }
+
+    function addNode() {
+        if (counter === max) {
+            return;
+        }
+        counter++;
+        rowTemplate.innerHTML = row.outerHTML.replace(/\[[0-9]+\]/g, `[${counter}]`);
+        var el = document.importNode(rowTemplate.content, true);
+        var select = el.querySelector('select');
+        select.selectedIndex = notSelected()
+        form.appendChild(el);
+    }
+
+   
+    /*
+    var btn2 = el.querySelector(".btn-remove");
+    btn2.addEventListener('click', function(e) {
+        form.removeChild(e.target.parentNode.parentNode);
+    });*/
+
+    function addControls(el) {
+        var controls = document.createElement('div');
+        controls.className = 'controls';
+
+        el.appendChild(controls)
+        var add = document.createElement('button');
+        add.type="button"
+        add.innerText = "+";
+        add.className = "btn-add";
+        controls.appendChild(add);
+        
+        var rem = document.createElement('button');
+        rem.type="button";
+        rem.innerText = "-";
+        rem.className = "btn-remove";
+        controls.appendChild(rem);
+    }
+
+    var counter = 0;
+    var form = document.getElementById('csp-directives');
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener('click', function(e) {
+        if (e.target.className === 'btn-remove') {
+            form.removeChild(e.target.parentNode.parentNode);
+        } else if (e.target.className === 'btn-add') {
+            addNode();
+        }
+    });
+    
+    var row = document.querySelector('[form-repeatable]');
+    var rowTemplate = document.createElement('template');
+    var max = document.querySelectorAll('#csp-directives option').length - 1;
+
+    Array.from(document.querySelectorAll('#csp-form [form-repeatable]')).map(function(el) {
+        addControls(el);
+    });
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
     [
         localAjax,
@@ -157,6 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
         stripeExample,
         evalExample,
         cdnD3,
+        cspForm,
     ].map(function(fn) {
         try {
             fn();

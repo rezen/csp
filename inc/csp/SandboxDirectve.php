@@ -3,6 +3,11 @@
 // allow-* [scripts, top-navigation, same-origin, presentation, popups-to-escape-sandbox, popups, pointer-lock, orientation-lock, allow-forms]
 class SandboxDirective extends Directive 
 {
+    function isEmpty()
+    {
+        return false;
+    }
+
     function isValidSource($source)
     {   
         $source = str_replace('allow-', '', $source);

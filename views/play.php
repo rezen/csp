@@ -10,7 +10,6 @@
   </head>
   
   <body>
-
     <!-- ... -->
     <section class="page-width">
       <div id="hide-with-css">If visible, local external css not loaded</div>
@@ -21,15 +20,9 @@
         <a href="?ro=1">Report Only</a>
       <?php endif; ?>
       <pre><?php printSafe(explode(";", $policy->toString())); ?></pre><!-- TODO not xss safe -->
-      <hr />
-      <h3>Request Headers</h3>
-      <pre>
-        <?php printSafe(getallheaders()); ?><!-- TODO not xss safe -->
-      </pre>
-      <hr />
-      <h3>Response Headers</h3>
-      <pre><?php printSafe(headers_list()); ?></pre><!-- TODO not xss safe -->
-    <table id="csp-examples" border="1">
+
+      <?php require 'csp-form.php'; ?>
+      <table id="csp-examples" border="1">
       <tr>
         <th>label</th>
         <th>el</th>
@@ -52,9 +45,11 @@
             <?php endif; ?>
             <pre><?php echo @$el['script']['source']; ?></pre>
           </td>
-          <!--<td>
+          <!--
+            <td>
             <?php echo $el['category']; ?>
-          </td>-->
+          </td>
+          -->
         </tr>
       <?php endforeach; ?>
       <tr>

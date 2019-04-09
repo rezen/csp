@@ -1,6 +1,8 @@
 # CSP
 
 ```sh
+sudo bash -c "echo '127.0.0.1    sneaker' >> /etc/hosts"
+
 # Run with docker ....
 docker-compose up
 

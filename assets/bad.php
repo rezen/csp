@@ -29,7 +29,7 @@ function hexicode($in) {
 }
 
 #style-self-external-2:before {
-	content: 'Changing ... ';
+	content: 'Changed (css from another domain) ... ';
 }
 <?php
 // https://github.com/berzerk0/Probable-Wordlists

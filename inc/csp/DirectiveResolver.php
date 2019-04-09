@@ -28,13 +28,13 @@ class DirectiveResolver
         switch ($directive) {
             case "upgrade-insecure-requests":
             case "block-all-mixed-content":
-                return new CSP\BinaryDirective($directive);
+                return new BinaryDirective($directive);
             case "plugin-types":
-                return new \CSP\PluginTypesDirective($directive);
+                return new PluginTypesDirective($directive);
             case "report-uri":
-                return new \CSP\ReportUriDirective($directive);
+                return new ReportUriDirective($directive);
             default:
-                return new \CSP\Directive($directive);
+                return new Directive($directive);
         }
     }
 

@@ -49,7 +49,8 @@ pre{
 }
 .page-width {
 	max-width: 1600px;
-	margin:0 auto;
+  margin:0 auto;
+  padding:0 5%;
 }
 
 #hide-with-css {
@@ -82,7 +83,6 @@ pre{
   text-overflow: ellipsis;
 }
 
-
 #csp-report-viewer{
     background: rgba(0,0,0,0.9);
 	color: rgb(179, 179, 179);
@@ -92,10 +92,10 @@ pre{
 	/*
 	position: fixed;
 	display: block;
-    bottom: 0;
-    z-index: 1000;
-    width: 100%;
-    left: 0;
+  bottom: 0;
+  z-index: 1000;
+  width: 100%;
+  left: 0;
 	max-height: 25%;
 	overflow-y: scroll;
 	*/
@@ -110,5 +110,38 @@ pre{
 #csp-report-viewer th, 
 #csp-report-viewer td {
 	border: 1px solid rgba(255,255,255,0.3);
-  }
-  
+}
+
+[form-repeatable]:nth-child(1) .btn-remove{
+  display: none;
+}
+
+.csp-directive {
+  border-bottom: solid 2px rgb(199, 195, 195);
+  padding: 16px 0;
+  position: relative;
+}
+
+.csp-directive .controls {
+  position: absolute;
+  bottom: 16px;
+  left:0;
+}
+
+.csp-directive select{
+  display: inline-block;
+  vertical-align:top;
+  width: 20%;
+}
+
+.csp-directive textarea{
+  display: inline-block;
+  width: 70%;
+  height: 70px;
+  max-width: 640px;
+}
+
+#csp-form button[type="submit"] {
+  margin:12px 0 0 0;
+  font-size: 120%;
+}
