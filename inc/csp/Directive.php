@@ -34,6 +34,16 @@ class Directive
         $this->sources = [];
     }
 
+    function hasSource($source)
+    {
+        return in_array($source, $this->sources);
+    }
+
+    function hasSelf()
+    {
+        return in_array("'self'", $this->sources);
+    }
+
     function isQuotedSource($source)
     {
         if (strpos($source, "'") === 0) {

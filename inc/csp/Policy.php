@@ -26,6 +26,30 @@ class Policy
         return implode(";", $directives);
     }
 
+    function hasDefault()
+    {
+        return array_key_exists("default-src", $this->directives);
+    }
+
+    function hasDefaultSelf()
+    {
+        if (!$this->hasDefault()) {
+            return false;
+        }
+    
+        $directive = $this->directives["default-src"];
+        return $directive->hasSelf();
+    }
+
+    function hasDirective($directive)
+    {
+        if (!$this->resolver->isValidDirective($directive)) {
+            return false;
+        }
+
+        return array_key_exists($directive, $this->directives);
+    }
+
     function addDirectiveString($directive)
     {
         $parts = explode(" ", trim(preg_replace('/\s+/', ' ', $directive)));

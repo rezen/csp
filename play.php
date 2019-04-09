@@ -14,8 +14,10 @@ $ids = isset($_GET['i']) ? explode(',', $_GET['i']) : [];
 
 if (empty($ids)) {
   $ids = [
+    "ajax-local",
     "style-self-external-2", 
     "iframe-remote-youtube", 
+    "iframe-remote-youtube-2",
     "form-local-1",
     "eval-2",
     "stripe-button",
@@ -72,6 +74,13 @@ foreach ($csp as $directive) {
 $policy->addDirective("report-uri", [
   $report_url
 ]);
+
+
+if ($policy->hasDefaultSelf()) {
+  $policy->addDirective("connect-src", [
+    "ws://localhost:8110"
+  ]);
+}
 
 $policy->isReportOnly = isset($_GET['ro']);
 

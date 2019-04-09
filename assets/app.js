@@ -31,6 +31,7 @@ function localAjax() {
     })
     .catch(function(err) {
         var el = document.querySelector('#ajax-local');
+        if (!el) {return;}
         el.textContent = err;
     });
 }
@@ -151,6 +152,10 @@ function generateBlobImage() {
 
 
 function cspForm() {
+    try {
+        document.getElementById('img-src-blob').src = URL.createObjectURL(generateBlobImage());
+    } catch (e) {}
+
     // @todo prevent selection of existing directive
     function notSelected() {
         var selects = document.querySelectorAll('#csp-directives select');
@@ -177,13 +182,6 @@ function cspForm() {
         select.selectedIndex = notSelected()
         form.appendChild(el);
     }
-
-   
-    /*
-    var btn2 = el.querySelector(".btn-remove");
-    btn2.addEventListener('click', function(e) {
-        form.removeChild(e.target.parentNode.parentNode);
-    });*/
 
     function addControls(el) {
         var controls = document.createElement('div');
@@ -227,6 +225,35 @@ function cspForm() {
 }
 
 
+(function handlingPostMessages() {
+    var messages = {};
+    window.addEventListener("message", function(evt) {
+        if (!Array.isArray(messages[evt.origin])) {
+            messages[evt.origin] = [];
+        }
+        messages[evt.origin].push(evt.data);
+        console.log(messages);
+    }, false);
+})();
+
+function loadYoutube() {
+    var player;
+    window.onYouTubeIframeAPIReady = function() {
+        Array.from(document.querySelectorAll('[data-youtube]')).map(function(el) {
+            var id = el.getAttribute('id');
+            player = new YT.Player(id, {
+                height: '225',
+                width: '400',
+                videoId: 's4wrMMju-Xc',
+                events: {
+                    'onReady': function() {},
+                    'onStateChange': function() {},
+                }
+            });
+        })
+    } 
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     [
         localAjax,
@@ -235,6 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
         evalExample,
         cdnD3,
         cspForm,
+        loadYoutube,
     ].map(function(fn) {
         try {
             fn();

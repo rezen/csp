@@ -128,10 +128,20 @@
         "category": "style-src"
     },
     {
-        "id": "iframe-remote-youtube",
-        "label": "Youtube embed",
+        "id": "iframe-remote-youtube-2",
+        "label": "Youtube embed with script",
         "html": [
-            "<iframe width='400' height='225' src='https:\/\/www.youtube.com\/embed\/s4wrMMju-Xc' ",
+            "<div data-youtube id='{{ id }}'></div>",
+            "<script nonce='{{ nonce }}' src='https://www.youtube.com/iframe_api'></script>"
+        ],
+        "category": ""
+    },
+
+    {
+        "id": "iframe-remote-youtube",
+        "label": "Youtube embed (origin)",
+        "html": [
+            "<iframe width='400' height='225' src='https:\/\/www.youtube.com\/embed\/s4wrMMju-Xc?enablejsapi=1&debugjs=1&debugcss=1' ",
             "frameborder='0' allow='accelerometer;autoplay;encrypted-media;gyroscope;picture-in-picture' allowfullscreen><\/iframe>"
         ],
         "category": ""
@@ -190,7 +200,7 @@
     {
         "id": "img-src-blob",
         "label": "image blob",
-        "html": "<img alt='blob url' src='blob:http:\/\/localhost:8000\/1b7b9af0-127b-43bc-95d9-800df9c08df0' \/>",
+        "html": "<img id='{{ id }}' alt='blob url' src='blob:http:\/\/localhost:8000\/1b7b9af0-127b-43bc-95d9-800df9c08df0' \/>",
         "category": ""
     },
     {

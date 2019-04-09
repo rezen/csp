@@ -11,6 +11,14 @@ composer install
 php -S 127.0.0.1:8000 -t ./
 ```
 
+## Play
+- **elements** What elements will load on the page?
+- **allow** What should we allow on the page?
+- **proof** How can we prove the CSP worked?
+  - CSP Reports
+  - document.querySelector('iframe').contentWindow.location.href
+  - https://codepen.io/smonn/pen/gaeVae
+
 ### Links
 - https://www.html5rocks.com/en/tutorials/security/content-security-policy/
 - https://speakerdeck.com/mikispag/making-csp-great-again-michele-spagnuolo-and-lukas-weichselbaum?slide=9
