@@ -6,80 +6,132 @@
         "html": "<p id=\"{{ id }}\">Original before {{ id }}<\/p>",
         "script": {
             "nonce": false,
-            "inline": "eval(\"document.getElementById('{{ id }}').textContent='[!] Changed with eval in {{ id }}'\");"
+            "inline": 
+                "eval(\"document.getElementById('{{ id }}').textContent='[!] Changed with eval in {{ id }}'\");"
+            
         },
-        "csp_block": {
-            "script-src": "'unsafe-eval'  'nonce-{{ nonce }}'"
+        "csp": {
+            "block": {
+                "script-src": "'unsafe-eval' 'nonce-{{ nonce }}'"
+            }
         },
-        "category": "script-src"
+        "category": "script-src",
+        "validate": {
+            "allow": "document.getElementById('{{ id }}').textContent.indexOf(`Changed with eval`) >= 0"
+        }
     },
     {
         "id": "eval-2",
         "label": "Eval from external",
         "html": "<p id=\"{{ id }}\">Original before {{ id }}<\/p>",
         "script": {
-            "src": "assets\/app.js@evalExample",
+            "domready": [
+                "new Function(`document.getElementById('eval-2').textContent='[!] Changed from external using new Function()'`)();"
+            ],
+            "src": "assets\/generated.js",
             "nonce": false
         },
-        "csp_block": {
-            "script-src": "'unsafe-eval'  'nonce-{{ nonce }}'"
+        "csp": {
+            "block": {
+                "script-src": "'unsafe-eval' 'nonce-{{ nonce }}'"
+            }
         },
-        "category": "script-src"
+        "category": "script-src",
+        "validate": {
+            "allow": "document.getElementById('{{ id }}').textContent.indexOf(`Changed from external`) >= 0"
+        }
     },
     {
         "id": "eval-nonce",
         "label": "Eval from with nonce",
         "html": "<p id=\"{{ id }}\">Original before {{ id }}<\/p>",
         "script": {
-            "src": "assets\/app.js@evalExample",
-            "nonce": false,
-            "inline": "  eval(\"document.getElementById('{{ id }}').textContent='[!] Changed with eval with nonce'\");"
+            "src": "assets\/generated.js",
+            "nonce": true,
+            "inline": "eval(\"document.getElementById('{{ id }}').textContent='[!] Changed with eval with nonce'\");"
         },
-        "csp_block": {
-            "script-src": "'unsafe-eval'  'nonce-{{ nonce }}'"
+        "csp":{
+            "block": {
+                "script-src": "'unsafe-eval'  'nonce-{{ nonce }}'"
+            }
         },
-        "category": "script-src"
+        "category": "script-src",
+        "validate": {
+            "allow": "document.getElementById('{{ id }}').textContent.indexOf(`Changed with eval with nonce`) >= 0"
+        }
     },
     {
         "id": "style-attr",
         "label": "Element with style attribute",
-        "html": "<p style=\"color:purple\">Style in element will make it purple<\/p>",
-        "csp_block": [],
-        "category": "style-src"
+        "html": "<p id='style-attr' style=\"color:rgb(140, 20, 252)\">Style in element will make it purple<\/p>",
+        "csp": {},
+        "category": "style-src",
+        "validate": {
+            "allow": "window.getComputedStyle(document.getElementById(`style-attr`)).getPropertyValue(`color`) === 'rgb(140, 20, 252)';"
+        }
+
     },
     {
         "id": "style-inline-nonce",
         "label": "Style with nonce",
         "html": [
             "<p id='{{ id }}'>Style makes this blue<\/p>",
-            "<style nonce=\"{{ nonce }}\">#{{ id }}{color: blue;}#{{ id }}:before{content: 'Changed ';}<\/style>"
+            "<style nonce=\"{{ nonce }}\">",
+            " #{{ id }}{color: rgb(0, 0, 255);}",
+            " #{{ id }}:before{content: 'Changed ';}",
+            "<\/style>"
         ],
-        "category": "style-src"
+        "category": "style-src",
+        "validate": {
+            "allow": "window.getComputedStyle(document.getElementById(`style-inline-nonce`)).getPropertyValue(`color`) === 'rgb(0, 0, 255)';"
+        }
     },
     {
         "id": "style-inline-wo-nonce",
         "label": "Style without nonce",
         "html": [
             "<p id='{{ id }}'>Style will make this red<\/p>",
-            "<style>#{{ id }}{color: red;}\n#{{ id }}:before{content: 'Changed ';}<\/style>"
+            "<style>",
+            " #{{ id }}{color: rgb(0, 0, 255);}",
+            " #{{ id }}:before{content: 'Changed ';}",
+            "<\/style>"
         ],
-        "category": "style-src"
+        "category": "style-src",
+        "validate": {
+            "allow": "window.getComputedStyle(document.getElementById(`{{ id }}`)).getPropertyValue(`color`) === 'rgb(0, 0, 255)';"
+        }
     },
     {
+        "vars": {
+            "color": "rgb(17, 167, 167)"
+        },
         "id": "style-self-external",
         "label": "Style from stylesheet",
         "html": [
             "<p id='{{ id }}'>Style will make this aqua<\/p>"
         ],
+        "css": [
+            "#style-self-external {color: {{ color }};}",
+            "#style-self-external:before {content: \"Changed \";}"
+        ],
+        "validate": {
+            "allow": "window.getComputedStyle(document.getElementById(`{{ id }}`)).getPropertyValue(`color`) === 'rgb(17, 167, 167)';"
+        },
         "category": "style-src"
     },
     {
         "id": "style-self-external-2",
         "label": "Style from stylesheet",
         "html": [
-            "<p id='{{ id }}'>Secrets?<\/p> <input type='PassWord' name='password' value='love4ever' \/>"
+            "<p id='{{ id }}'>Secrets?<\/p>",
+            "<input type='PassWord' name='password' value='love4ever' \/>"
         ],
-        "category": "style-src"
+        
+        "css": [],
+        "category": "style-src",
+        "validate": {
+            "allow": "window.getComputedStyle(document.getElementById('style-self-external-2')).getPropertyValue('font-family').indexOf('attack') >= 0"
+        }
     },
     {
         "id": "inline-js-1",
@@ -87,9 +139,12 @@
         "html": "<p id=\"{{ id }}\">Inline JavaScript w\/o nonce will change this color to green<\/p>",
         "script": {
             "nonce": false,
-            "inline": "document.getElementById(\"{{ id }}\").style.color=\"green\";"
+            "inline": "document.getElementById(\"{{ id }}\").style.color=\"rgb(0, 128, 0)\";"
         },
-        "category": "style-src"
+        "category": "style-src",
+        "validate": {
+            "allow": "window.getComputedStyle(document.getElementById(`{{ id }}`)).getPropertyValue(`color`) === 'rgb(0, 128, 0)';"
+        }
     },
     {
         "id": "inline-js-2",
@@ -97,9 +152,12 @@
         "html": "<p id=\"{{ id }}\">Inline JavaScript w\/ nonce will change this color to orange<\/p>",
         "script": {
             "nonce": true,
-            "inline": "document.getElementById(\"{{ id }}\").style.color=\"orange\";"
+            "inline": "document.getElementById(\"{{ id }}\").style.color=\"rgb(255, 165, 0)\";"
         },
-        "category": "style-src"
+        "category": "style-src",
+        "validate": {
+            "allow": "window.getComputedStyle(document.getElementById(`{{ id }}`)).getPropertyValue(`color`) === 'rgb(255, 165, 0)';"
+        }
     },
     {
         "id": "external-style",
@@ -109,6 +167,9 @@
             "<i class=\"fas fa-align-justify\"><\/i>",
             "Font awesome icon, remote style"
         ],
+        "validate": {
+            "allow": "window.getComputedStyle(document.querySelector(`[data-id='external-style'] i`)).getPropertyValue(`font-family`).indexOf('Font Awesome') >= 0;"
+        },
         "category": "style-src"
     },
     {
@@ -117,15 +178,27 @@
         "html": [
             "<p class=\"google-font\">Should be a fancy font if google fonts loaded<\/p>"
         ],
+        "css": [
+            ".google-font{font-family: 'Alfa Slab One';}"
+        ],
+        "validate": {
+            "allow": "Array.from(document.fonts.keys()).some(f => f.family.indexOf('Alfa Slab') >= 0)"
+        },
         "category": "style-src"
     },
     {
         "id": "fonts-2",
         "label": "Remote stylesheet & fonts",
         "html": [
-            "<p class=\"google-font-too\">Should be fancy font if @import works in css for google fonts<\/p>"
+            "<p class=\"google-font-too\">",
+            " Should be fancy font if @import works in css for google fonts",
+            "<\/p>"
         ],
-        "category": "style-src"
+        "category": "style-src",
+        "validate": {
+            "allow": "Array.from(document.fonts.keys()).some(f => f.family.indexOf('Monoton') >= 0)"
+        }
+
     },
     {
         "id": "iframe-remote-youtube-2",
@@ -134,7 +207,24 @@
             "<div data-youtube id='{{ id }}'></div>",
             "<script nonce='{{ nonce }}' src='https://www.youtube.com/iframe_api'></script>"
         ],
-        "category": ""
+        "category": "",
+        "script": {
+            "global": [
+                "window.onYouTubeIframeAPIReady = function() {",
+                "    Array.from(document.querySelectorAll('[data-youtube]')).map(function(el) {", 
+                "        var id = el.getAttribute('id');", 
+                "        new YT.Player(id, {", 
+                "            height: '225',", 
+                "            width: '400',", 
+                "            videoId: 's4wrMMju-Xc'", 
+                "        });", 
+                "    })", 
+                "}"
+            ]
+        },
+        "validate": {
+            "allow": "document.querySelector('#iframe-remote-youtube-2').tagName === 'IFRAME' && !!messages['https://www.youtube.com']"
+        }
     },
 
     {
@@ -144,7 +234,10 @@
             "<iframe width='400' height='225' src='https:\/\/www.youtube.com\/embed\/s4wrMMju-Xc?enablejsapi=1&debugjs=1&debugcss=1' ",
             "frameborder='0' allow='accelerometer;autoplay;encrypted-media;gyroscope;picture-in-picture' allowfullscreen><\/iframe>"
         ],
-        "category": ""
+        "category": "",
+        "validate": {
+            "allow": "!!messages['https://www.youtube.com']"
+        }
     },
     {
         "id": "iframe-remote-vimeo",
@@ -152,7 +245,10 @@
         "html": [
             "<iframe src='https:\/\/player.vimeo.com\/video\/1084537' width='400' height='225' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen><\/iframe>"
         ],
-        "category": ""
+        "category": "",
+        "validate": {
+            "allow": "!!messages['https://player.vimeo.com']"
+        }
     },
     {
         "id": "iframe-local",
@@ -161,7 +257,10 @@
             "<iframe border='0' src='xss.php' width='400' height='225'><\/iframe>",
             "<p id='{{ id }}'>Will change if xss triggers<\/p>"
         ],
-        "category": ""
+        "category": "",
+        "validate": {
+            "allow": "!!window.iframeXss"
+        }
     },
     {
         "id": "video-src-local",
@@ -169,7 +268,21 @@
         "html": [
             "<video width=\"400\" src=\"assets\/video-1.mp4\" controls \/>"
         ],
-        "category": ""
+        "category": "",
+        "validate": {
+            "allow": "document.querySelector(`[data-id='video-src-local'] video`).hasAttribute('data-loaded')"
+        }
+    },
+    {
+        "id": "video-src-remote",
+        "label": "remote video",
+        "html": [
+            "<video width=\"400\" src=\"http://sneaker:8100/assets\/video-1.mp4\" controls \/>"
+        ],
+        "category": "",
+        "validate": {
+            "allow": "document.querySelector(`[data-id='video-src-remote'] video`).hasAttribute('data-loaded')"
+        }
     },
     {
         "id": "img-src-remote",
@@ -177,31 +290,46 @@
         "html": [
             "<img src=\"https:\/\/img.shields.io\/badge\/build-passing-brightgreen.svg\" alt=\"From another domain\" \/>"
         ],
-        "category": ""
+        "category": "",
+        "validate": {
+            "allow": "document.querySelector(`[data-id='{{ id }}'] img`).hasAttribute('data-loaded')"
+        }
     },
     {
         "id": "img-src-local-1",
         "label": "Local image",
         "html": "<img src='assets\/pic-1.jpg' height='200' alt='Same source' \/>",
-        "category": ""
+        "category": "",
+        "validate": {
+            "allow": "document.querySelector(`[data-id='{{ id }}'] img`).hasAttribute('data-loaded')"
+        }
     },
     {
         "id": "img-src-local-2",
         "label": "Local image",
         "html": "<img nonce='{{ nonce }}' src='assets\/pic-1.jpg' height='200' alt='Same source' \/>",
-        "category": ""
+        "category": "",
+        "validate": {
+            "allow": "document.querySelector(`[data-id='{{ id }}'] img`).hasAttribute('data-loaded')"
+        }
     },
     {
         "id": "img-src-data",
         "label": "image dataurl",
         "html": "<img alt='Data url' src='data:image\/jpeg;base64,\/9j\/4AAQSkZJRgABAgAAZABkAAD\/2wBDAAEBAQEBAQEBAQECAQEBAgICAQECAgMCAgICAgMEAwMDAwMDBAQEBAUEBAQGBgYGBgYICAgICAkJCQkJCQkJCQn\/2wBDAQICAgMDAwUEBAUIBgUGCAkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQn\/wAARCAAwADADAREAAhEBAxEB\/8QAGQABAQEBAQEAAAAAAAAAAAAAAAgKCQUH\/8QAKxAAAAQFAwMDBQEAAAAAAAAAAgMEBQABBgcICRESExQWFRciGSRak9YK\/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP\/EABQRAQAAAAAAAAAAAAAAAAAAAAD\/2gAMAwEAAhEDEQA\/ANhEAgEAgEAgEBOV3sw8R8fKlQ0ZfvKW3NkKwc0JTo20pV9bs1NOShtONNILVlJXFUSaMkZpJgAmSDxmIApSnuGewfVbb3OtteSi2a5FobhMd1bd1H3Hj1e027JXxlX9meYlP7dciMNIN6R5Qyx8RT4jCIM9pynKA9yp6npqiaaqGs6zqFDSNH0ihVulV1W6KykDa2NqAoR6pWrVHiAUSSSUAQzDBikEIZTnOcpSgJytvnVhHeStGa29ocxrV3VuJUfcePUFTdwmF8el\/ZkGKj+3Qolhp5vSIKGYPiGfEARCntKU5wFUwCAxZ\/6NdJfUEzxzctbd7FGwHurbunLVslNvNQ+VU2x9F6Rvz4tOT9B4ckZ4uJCwkXMIJgny2kKc5ClIO\/WifjfejEbTHxnx6yFoz2+vBb7zPy+kPUULt2nq1Vuzkl+6bT1KUzqJVJY\/gYLbltPYUpykFU51W3rS8mEeY1obbs3kdxLq2ruFTdBU93BCPv3p8YViJCn66owogrqnmhDzMGEAd9xClKU5wGLPRP0T9TjEbU4xnyFyFxn9vrP2+8z8vq\/zOlHbtPVqUdm1L9q2uylUZ1FSksHwLFty3nsGU5yDfrAIBAIBAIBAIDizqN6YmXGad7qWulYTVYuNgxR7BSqFgcrS0gU8jbXFySr1ysx3Nm3VG0FdY4pUWSLckQuJIdxzlsEIQF9AjUm\/Invh+iqf7iAfQI1JvyJ74foqn+4gKpwn0hc3MXsnLZ30u9rO3Uywt3Q3rPkNgKkKfgsr\/wCptKtvI7ia2qnIj7U9QBSDkmH8yw7cZ7CCHfqAQCAQCAQCA\/\/Z' \/>",
-        "category": ""
+        "category": "",
+        "validate": {
+            "allow": "document.querySelector(`[data-id='{{ id }}'] img`).hasAttribute('data-loaded')"
+        }
     },
     {
         "id": "img-src-blob",
         "label": "image blob",
         "html": "<img id='{{ id }}' alt='blob url' src='blob:http:\/\/localhost:8000\/1b7b9af0-127b-43bc-95d9-800df9c08df0' \/>",
-        "category": ""
+        "category": "",
+        "validate": {
+            "allow": "document.querySelector(`[data-id='{{ id }}'] img`).hasAttribute('data-loaded')"
+        }
     },
     {
         "id": "form-local-1",
@@ -253,7 +381,25 @@
         "html": "<p id='{{ id }}'>Will change once AJAX is done<\/p>",
         "category": "",
         "script": {
-            "src": "assets\/app.js@localAjax"
+            "domready": [
+                "fetch('ajax.php')",
+                "    .then(function(response) {",
+                "        return response.json();",
+                "    })",
+                "    .then(function(d) {",
+                "        var el = document.querySelector('#ajax-local');",
+                "        el.textContent = d.msg;",
+                "    })",
+                "    .catch(function(err) {",
+                "        var el = document.querySelector('#ajax-local');",
+                "        if (!el) {return;}",
+                "        el.textContent = err;",
+                "    });"
+            ],
+            "src": "assets\/generated.js"
+        },
+        "validate": {
+            "allow": "document.getElementById('{{ id }}').textContent.indexOf('Changed message from AJAX') >= 0"
         }
     },
     {
@@ -265,7 +411,37 @@
         ],
         "category": "",
         "script": {
-            "src": "assets\/app.js@stripeExample"
+            "domready": [
+                "var handler = StripeCheckout.configure({",
+                "    key: 'pk_KBCS2K6UgQc8K9VZCtNMOK4AEl5aU'",
+                "    // Ignore me",
+                "});",
+                "",
+                "document.getElementById('stripe-button').addEventListener('click', function(e) {",
+                "    handler.open({",
+                "      name: 'Demo Site',",
+                "      description: '2 widgets',",
+                "      amount: 10,",
+                "    });",
+                "    e.preventDefault();",
+                "});",
+                "", 
+                "window.addEventListener('popstate', function() {",
+                "    handler.close();",
+                "});",
+                "",
+                "document.getElementById('stripe-button').click();",
+                "setTimeout(function() {",
+                "  var el = document.querySelector('[name=stripe_checkout_app]');",
+                "  if (!el) {return;}",
+                "  el.style.display='none';",
+                "}, 400);",
+                ""
+            ],
+            "src": "assets\/generated.js"
+        },
+        "validate": {
+            "allow": "document.getElementsByName('stripe_checkout_app').length > 0"
         }
     },
     {
@@ -277,7 +453,10 @@
             "<\/a>",
             "<script async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"><\/script>"
         ],
-        "category": ""
+        "category": "",
+        "validate": {
+            "allow": "document.querySelectorAll('#twitter-widget-0').length > 0"
+        }
     },
     {
         "id": "media-audio",
@@ -286,7 +465,10 @@
             "<audio src='assets\/eddy_-_01_-_Pure_Adrenaline.mp3' controls \/>",
             "<a href='http:\/\/freemusicarchive.org\/music\/eddy\/2_Damn_Loud\/Pure_Adrenaline_mastered-with-CloudBounce'>Source<\/a>"
         ],
-        "category": ""
+        "category": "",
+        "validate": {
+            "allow": "document.querySelector(`[data-id='{{ id }}'] audio`).hasAttribute('data-loaded')"
+        }
     },
     {
         "id": "embed-pdf",
@@ -295,19 +477,41 @@
             "<embed src=\"assets\/smashing-the-stack.pdf\" type=\"application\/pdf\" width=\"400\" height=\"225\">",
             "<\/embed>"
         ],
-        "category": ""
+        "category": "",
+        "validate": {
+            "allow": "document.querySelector(`[data-id='{{ id }}'] embed`).hasAttribute('internalinstanceid')"
+        }
     },
     {
+        "id": "embed-svg",
+        "label": "Local embed svg",
+        "html": [
+            "<embed src=\"assets\/jquery.svg\" type=\"image\/svg+xml\" width=\"400\" height=\"225\">",
+            "<\/embed>"
+        ],
+        "category": "",
+        "validate": {
+            "allow": "document.querySelector(`[data-id='{{ id }}'] embed`).hasAttribute('data-loaded')"
+        }
+    },
+
+    {
         "id": "script-src-cloudflare",
-        "label": "Local embed",
+        "label": "Load jquery from cloudflare",
         "html": [
             "<p id=\"{{ id }}\">This changes if cloudflare jquery loads<\/p>",
             "<script src=\"https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/jquery\/3.3.1\/jquery.min.js\"><\/script>"
         ],
         "script": {
-            "src": "assets\/app.js@cloudflareJquery"
+            "domready": [
+                "jQuery(`#script-src-cloudflare`).text(`Changed using jquery from cloudflare cdn`)"
+            ],
+            "src": "assets\/generated.js"
         },
-        "category": ""
+        "category": "",
+        "validate": {
+            "allow": "document.getElementById('{{ id }}').textContent.indexOf(`Changed using jquery`) >= 0"
+        }
     },
     {
         "id": "script-src-jsdelivr",
@@ -317,14 +521,26 @@
             "<script src=\"https:\/\/cdn.jsdelivr.net\/npm\/d3@5.9.2\/dist\/d3.min.js\"><\/script>"
         ],
         "script": {
-            "src": "assets\/app.js@cdnD3"
+            "domready": [
+                "d3.select(`#script-src-jsdelivr`).text(`Changed using d3 from jsdelivr`);"
+            ],
+            "src": "assets\/generated.js"
         },
-        "category": ""
+        "category": "",
+        "validate": {
+            "allow": "document.getElementById('script-src-jsdelivr').textContent.indexOf(`Changed using d3`) >= 0"
+        }
     },
     {
         "id": "target-blank",
         "label": "Target blank",
         "html": "<a id=\"{{ id }}\" href=\"tabnab.html\" target=\"_blank\">Tabby<\/p>",
+        "category": "sandbox"
+    },
+    {
+        "id": "target-blank-ebay",
+        "label": "Target for another domain",
+        "html": "<a id=\"{{ id }}\" href=\"https://www.ebay.com\" target=\"_blank\">Ebay.com<\/p>",
         "category": "sandbox"
     }
 ]

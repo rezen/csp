@@ -13,32 +13,51 @@ require 'vendor/autoload.php';
 $elements = file_get_contents("inc/elements.json");
 $elements = json_decode($elements, true);
 $elements   = fixElements($elements, $nonce);
+
+$embeds = scriptFromElements($elements);
+$script = file_get_contents("assets/generated.tmpl.js");
+
+foreach ($embeds as $key => $embed) {
+  $script = str_replace("/*--{$key}--*/", $embed, $script);
+}
+file_put_contents("assets/generated.js", $script);
+
 $doc_id     = uniqid();
 $report_url = "{$baseurl}/report.php?id={$doc_id}";
 
 $hasher = \CSP\SourceHasher::create();
 
 $policy = \CSP\Policy::create();
-$policy->addDirective("style-src", [
+$policy->addDirective("default-src", [
+  "'self'",
+])->addDirective("style-src", [
   'self', "nonce-{$nonce}", 'report-sample',
 ])->addDirective("script-src", [
   'self',
-  'unsafe-eval', 
+  // 'unsafe-eval', 
   "nonce-{$nonce}", 
   'report-sample', 
   'checkout.stripe.com',
   'cdnjs.cloudflare.com',
-  '*.jsdelivr.net', 
+  // '*.jsdelivr.net', 
   'platform.twitter.com',
 ])->addDirective("img-src", [
-  'self', 'q.stripe.com'
+  'self', 'q.stripe.com', 'syndication.twitter.com'
 ])->addDirective("child-src", [
+  'self',
   'www.youtube.com', 
   'player.vimeo.com', 
   'checkout.stripe.com',
   'platform.twitter.com'
+// ])->addDirective("frame-src", [
+//    'self'
+])->addDirective("plugin-types", [
+  'image/svg+xml'
 ])->addDirective("form-action", [
   'self'
+])->addDirective("connect-src", [
+  'ws://localhost:8110', // Must have to getting reports back
+  "'self'"
 ])->addDirective("report-uri", [
   $report_url
 ]);
@@ -57,6 +76,7 @@ header("Report-To: " . json_encode([
   "endpoints" => [[ "url" => "$report_url&from-report-to=1", "priority" => 2 ]] 
 ]));
 header('Cache-Control: no-store');
+header('X-XSS-Protection: 0');
 
 ob_start();
 require 'views/main.php';

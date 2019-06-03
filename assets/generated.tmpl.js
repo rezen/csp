@@ -1,5 +1,19 @@
 'use strict';
 
+window.executed = {};
+window.app = {csp: {}};
+
+window.onYouTubeIframeAPIReady = function() {
+    Array.from(document.querySelectorAll('[data-youtube]')).map(function(el) {
+        var id = el.getAttribute('id');
+        new YT.Player(id, {
+            height: '225',
+            width: '400',
+            videoId: 's4wrMMju-Xc'
+        });
+    })
+}
+
 window.requestIdleCallback =
   window.requestIdleCallback ||
   function (cb) {
@@ -18,74 +32,7 @@ window.cancelIdleCallback =
   window.cancelIdleCallback ||
   function (id) {
     clearTimeout(id);
-  }
-// start:localAjax
-function localAjax() {
-    fetch('ajax.php')
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(d) {
-        var el = document.querySelector('#ajax-local');
-        el.textContent = d.msg;
-    })
-    .catch(function(err) {
-        var el = document.querySelector('#ajax-local');
-        if (!el) {return;}
-        el.textContent = err;
-    });
-}
-// end:localAjax
-
-// start:stripeExample
-function stripeExample()
-{
-    var handler = StripeCheckout.configure({
-        key: 'pk_KBCS2K6UgQc8K9VZCtNMOK4AEl5aU',
-        image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-        locale: 'auto',
-        token: function(token) {
-          // You can access the token ID with `token.id`.
-          // Get the token ID to your server-side code for use.
-        }
-    });
-      
-    document.getElementById('stripe-button').addEventListener('click', function(e) {
-        // Open Checkout with further options:
-        handler.open({
-          name: 'Demo Site',
-          description: '2 widgets',
-          amount: 10,
-        });
-        e.preventDefault();
-    });
-      
-    window.addEventListener('popstate', function() {
-        handler.close();
-    });
-}
-// end:stripeExample
-
-// start:evalExample
-function evalExample() {
-    new Function(`document.getElementById('eval-2').textContent='[!] Changed from external using new Function()'`)();
-}
-// end:evalExample
-
-
-// start:cloudflareJquery
-function cloudflareJquery() {
-    jQuery("#script-src-cloudflare").text("Changed using jquery from cloudflare cdn");
-}
-// end:cloudflareJquery
-
-// start:cdnD3
-function cdnD3() {
-    d3.select("#script-src-jsdelivr").text("Changed using d3 from jsdelivr");
-}
-// end:cdnD3
-
-
+  };
 function websocketCsp() {
     var rowTemplate = document.createElement('template');
     rowTemplate.innerHTML = `<tr>
@@ -136,7 +83,6 @@ function websocketCsp() {
                 return el;
             })
             .map(el => reports.appendChild(el));
-
     };
 }
 
@@ -201,7 +147,7 @@ function cspForm() {
         controls.appendChild(rem);
     }
 
-    var counter = 0;
+    var counter = document.querySelectorAll('.csp-directive').length;
     var form = document.getElementById('csp-directives');
     if (!form) {
         return;
@@ -224,9 +170,13 @@ function cspForm() {
     });
 }
 
+function runDomready() {
+    /*--domready--*/
+}
+
 
 (function handlingPostMessages() {
-    var messages = {};
+    var messages = window.messages = {};
     window.addEventListener("message", function(evt) {
         if (!Array.isArray(messages[evt.origin])) {
             messages[evt.origin] = [];
@@ -236,45 +186,90 @@ function cspForm() {
     }, false);
 })();
 
-function loadYoutube() {
-    var player;
-    window.onYouTubeIframeAPIReady = function() {
-        Array.from(document.querySelectorAll('[data-youtube]')).map(function(el) {
-            var id = el.getAttribute('id');
-            player = new YT.Player(id, {
-                height: '225',
-                width: '400',
-                videoId: 's4wrMMju-Xc',
-                events: {
-                    'onReady': function() {},
-                    'onStateChange': function() {},
-                }
-            });
-        })
-    } 
-}
 
 document.addEventListener('DOMContentLoaded', function() {
-    [
-        localAjax,
-        cloudflareJquery,
-        stripeExample,
-        evalExample,
-        cdnD3,
-        cspForm,
-        loadYoutube,
-    ].map(function(fn) {
-        try {
-            fn();
-        } catch (e) {
-            console.error(e);
-        }
-    });
+    try {
+        runDomready();
+        executeTests();
+    } catch (e) {}
 
+    try {
+        cspForm();
+    } catch (e) {
+        console.error(e);
+    }
+
+    Array.from(document.querySelectorAll('video')).map(el => { 
+        setTimeout(function() {
+            el.play().catch(console.log); 
+        }, 100);
+    })
+
+    setTimeout(function() {
+        executeTests();
+        setTimeout(function() {
+            executeTests();
+        }, 2000);
+    }, 2000);
+
+    let sources = document.querySelectorAll('[src]');
+    Array.from(sources).map(function(el) {
+        let setLoaded = function(e) {
+            if (el.naturalWidth === 0 && el.naturalHeight === 0) {
+                return;
+            }
+            el.setAttribute('data-loaded', '1');
+        }
+        // For images
+        if (el.complete) {
+            setLoaded();        
+        }
+
+        el.onerror = function(err) {
+            console.error(err);
+        };
+        el.onload = setLoaded;
+        el.onloadstart = setLoaded;
+        el.onloadeddata = setLoaded;
+        el.onloadedmetadata = setLoaded;
+    });
     window.requestIdleCallback(function() {
         websocketCsp();
     });
 });
 
+function executeTests() {
+    let allow = () => '?';
+    let run = Array.from(document.querySelectorAll('[data-id]'))
+        .map(el => el.getAttribute('data-id'));
 
+    run.map(id => {
+        let pass = (tests[id] || {allow}).allow();
+        let content = '❓';
+        if (pass !== '?') {
+            content = pass ? '✅' : '⛔';
+        }
+        document.querySelector(`tr[data-id='${id}']`)
+            .children[3].textContent = content;
+        return [!!pass, id];
+    });
 
+    // How many of the results match up?
+    let failed = Array.from(document.querySelectorAll('#csp-examples tbody tr'))
+        .map(el => {
+            return {
+                pass: el.children[3].textContent.trim() === el.children[4].textContent.trim(), 
+                id: el.getAttribute('data-id'),
+            };
+        })
+        .filter(r => !r.pass);
+    let $progress = document.getElementById('csp-progress');
+    if (!$progress) {
+        return;
+    }
+    $progress.setAttribute('max', run.length)
+    $progress.setAttribute('value', run.length - failed.length);
+
+}
+
+/*--global--*/

@@ -88,9 +88,9 @@ class Policy
     {   
         $policy = $this->toString();
         $policy = preg_replace('/nonce-[a-z0-9]+/', 'nonce-', $policy);
-        $parts = str_split($policy);
+        $parts = explode(";", $policy);
         sort($parts);
-        return md5(implode('', $parts));
+        return md5(implode(';', $parts));
     }
 
     static function create()

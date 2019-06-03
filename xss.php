@@ -10,9 +10,11 @@
     <form>
     <script>
         var node = document.createElement("span");
+        parent.window.iframeXss = true;
+        
         var el = parent.document.getElementById('iframe-local');
         el.innerText = 'Changed from XSS in iframe';
-        alert("From xss.php in iframe");
+        alert("From xss.php in iframe" + Object.keys(parent));
     </script>
 </body>
 </html>

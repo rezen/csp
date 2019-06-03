@@ -55,13 +55,15 @@ class DirectiveResolver
             'media-src',
             'object-src',
             'plugin-types', //  plugin-types application/x-shockwave-flash
-            'report-uri',
+            'report-uri', // @todo deprecating
             'require-sri-for', // require-sri-for script style;
             'sandbox',
             'script-src',
             'style-src',
             'upgrade-insecure-requests',
             'worker-src',
+            // 'disown-opener',
+            // 'navigate-to',
           ]);
     }
 }

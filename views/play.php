@@ -3,10 +3,11 @@
     <title>CSP</title>
     <!--pagehash-->
     <meta data-doc-id="<?php echo $doc_id ?>" />
+    
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One" />
     <link rel="stylesheet" href="assets/app.css?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash('assets/app.css'); ?>" />
     <link rel="stylesheet" href="http://sneaker:8100/assets/bad.php?v=<?php echo time();  ?>" />
-    <script src="assets/app.js?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash('assets/app.js'); ?>"></script>
+    <script src="assets/generated.js?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash('assets/generated.js'); ?>"></script>
   </head>
   
   <body>
@@ -14,23 +15,27 @@
     <section class="page-width">
       <div id="hide-with-css">If visible, local external css not loaded</div>
       <h3>CSP</h3>
-      <?php if (isset($_GET['ro'])): ?>
-        <i>Is Report Only</i>
-      <?php else: ?>
-        <a href="?ro=1">Report Only</a>
-      <?php endif; ?>
-      <pre><?php printSafe(explode(";", $policy->toString())); ?></pre><!-- TODO not xss safe -->
+      <?php include 'mode.php'; ?>
 
+      <!--
+      <pre class="embed"><?php printSafe(explode(";", $policy->toString())); ?></pre>
+      -->
       <?php require 'csp-form.php'; ?>
-      <table id="csp-examples" border="1">
+      <progress id="csp-progress"></progress>
+      <br />
+      <table id="csp-examples" class="table">
+      <thead>
       <tr>
         <th>label</th>
         <th>el</th>
         <th>code</th>
-        <!--<th></th>-->
+        <th>ran</th>
+        <th>goal</th>
       </tr>
+      </thead>
+      <tbody>
       <?php foreach ($elements as $idx => $el): ?>
-        <tr data-id="<?php echo $el['id']; ?>">
+        <tr data-id="<?php echo $el['id']; ?>" data-goal="<?php echo $el['goal']; ?>">
           <td>
             <?php echo $el['label']; ?>
           </td>
@@ -43,16 +48,27 @@
             <?php if (isset($el['script']['src'])): ?>
               js: <?php echo $el['script']['src']; ?>
             <?php endif; ?>
-            <pre><?php echo @$el['script']['source']; ?></pre>
-          </td>
-          <!--
-            <td>
-            <?php echo $el['category']; ?>
-          </td>
-          -->
-        </tr>
+            <?php if (!empty(@$el['script']['source'])): ?>
+              <pre><?php echo @$el['script']['source']; ?></pre>
+            <?php endif; ?>
+            </td>
+            <td class="col-state"></td>
+            <td class="col-goal">
+              <?php switch ($el['goal']) {
+                case 'block':
+                  echo '⛔';
+                  break;
+                case 'allow':
+                  echo '✅';
+                  break;
+                case '?':
+                  echo '❓';
+                  break;
+              } ?>
+            </td>
+          </tr>
       <?php endforeach; ?>
-      <tr>
+      </tbody>
     </table>
 </section>
 <section id="csp-report-viewer">

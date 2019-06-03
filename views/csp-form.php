@@ -6,7 +6,7 @@ $idx = 0;
 <form id="csp-form" method="POST">
     <section id="csp-directives">
         <?php foreach ($policy->directives as $name => $directive): ?>
-            <?php if ($directive->isEmpty()) {continue;} ?>
+            <?php // if ($directive->isEmpty()) {continue;} ?>
             <div form-repeatable class="csp-directive">
                 <select name="csp[<?php echo $idx; ?>][name]">
                 <?php foreach ($resolver->getNames() as $i => $opt): ?>
@@ -22,5 +22,6 @@ $idx = 0;
         <?php $idx += 1; ?>
         <?php endforeach; ?>
     </section>
+    <br />
     <button type="submit">Update</button>
 </form>

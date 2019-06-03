@@ -10,27 +10,70 @@ $nonce    = explode(".", $nonce)[1];
 
 require 'vendor/autoload.php';
 
-$ids = isset($_GET['i']) ? explode(',', $_GET['i']) : [];
+$exercises = [
+  [
+    "ajax-local"              => 'allow',
+    "style-self-external-2"   => 'block', 
+    "iframe-remote-youtube"   => 'allow', 
+    "iframe-remote-youtube-2" => 'allow',
+    "form-local-1"            => '?',
+    "eval-2"                  => 'block',
+    "embed-pdf"               => 'block',
+    "stripe-button"           => 'allow',
+    'fonts-2'                 => 'allow',
+  ],
+  [
+    "ajax-local"              => 'allow',
+    "iframe-remote-youtube"   => 'block', 
+    "iframe-remote-youtube-2" => 'block',
+    "style-inline-nonce"      => 'block',
+    'inline-js-1'             => 'block', // has no nonce
+    'inline-js-2'             => 'allow',
+    'external-style'          => 'allow',
+    'embed-pdf'               => 'allow',
+    'embed-svg'               => 'block',
+  ]
+];
 
-if (empty($ids)) {
-  $ids = [
-    "ajax-local",
-    "style-self-external-2", 
-    "iframe-remote-youtube", 
-    "iframe-remote-youtube-2",
-    "form-local-1",
-    "eval-2",
-    "stripe-button",
-  ];
-}
+$answers = [
+  [],
+  [
+    'default-src'  => "'self'",
+    'style-src'    => "'self' cdnjs.cloudflare.com",
+    'script-src'   => "'nonce-{{nonce}}' 'self'",
+    'connect-src'  => "http://localhost:8100 ws://localhost:8110",
+    'plugin-types' => "application/pdf",
+  ]
+];
 
+$exid     = $_GET['e'] ?? 0;
+$exercise = $exercises[$exid] ?? $exercises[0];
+
+ksort($exercise);
+$ids = array_keys($exercise);
+sort($ids);
 
 $elements = file_get_contents("inc/elements.json");
 $elements = json_decode($elements, true);
 $elements = fixElements($elements, $nonce);
-$elements = array_filter($elements, function($el) use ($ids) {
-  return in_array($el["id"], $ids);
+
+$embeds = scriptFromElements($elements);
+$script = file_get_contents("assets/generated.tmpl.js");
+
+foreach ($embeds as $key => $embed) {
+  $script = str_replace("/*--{$key}--*/", $embed, $script);
+}
+file_put_contents("assets/generated.js", $script);
+
+
+$elements = array_filter($elements, function($el) use ($exercise) {
+  return isset($exercise[$el["id"]]);
 });
+
+$elements = array_map(function($el) use ($exercise) {
+  $el['goal'] = $exercise[$el['id']] ?? 'allow';
+  return $el;
+}, $elements);
 ksort($elements);
 
 $doc_id     = uniqid();
@@ -54,7 +97,7 @@ if (empty($csp)) {
     '*.jsdelivr.net', 
     'platform.twitter.com',
   ])->addDirective("img-src", [
-    'self', 'q.stripe.com'
+    'self',
   ])->addDirective("child-src", [
     'www.youtube.com', 
     'player.vimeo.com', 
@@ -62,6 +105,8 @@ if (empty($csp)) {
     'platform.twitter.com'
   ])->addDirective("form-action", [
     'self'
+  ])->addDirective("object-src", [
+    
   ]);
 }
 
@@ -96,6 +141,7 @@ header("Report-To: " . json_encode([
   "endpoints" => [[ "url" => "$report_url&from-report-to=1", "priority" => 2 ]] 
 ]));
 header('Cache-Control: no-store');
+header('X-XSS-Protection: 0');
 
 ob_start();
 require 'views/play.php';
