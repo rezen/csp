@@ -18,6 +18,8 @@ git subtree push --prefix csp-main heroku master
 git remote add heroku2 https://git.heroku.com/csp-ws.git
 git subtree push --prefix csp-ws heroku2 master
 
+wss://csp-main.herokuapp.com
+
 
 ## Play
 - **elements** What elements will load on the page?

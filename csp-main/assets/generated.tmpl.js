@@ -57,7 +57,7 @@ function websocketCsp() {
     var hash = document.querySelector('[pagehash]').getAttribute('pagehash');
 
     try {
-        conn = new WebSocket('ws://' + host + '?id=' + id + "&h=" + hash);
+        conn = new WebSocket(host + '?id=' + id + "&h=" + hash);
         console.log(conn);
     } catch (e) {
         console.log("A websocket", e);
