@@ -11,9 +11,12 @@ composer install
 php -S 127.0.0.1:8000 -t ./
 ```
 
-# git checkout --orphan android
 
+
+heroku create
 git subtree push --prefix csp-main heroku master
+git remote add heroku2 https://git.heroku.com/csp-ws.git
+git subtree push --prefix csp-ws heroku2 master
 
 
 ## Play
