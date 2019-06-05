@@ -1,5 +1,7 @@
 <?php
 
+require 'vendor/autoload.php';
+
 $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,strpos( $_SERVER["SERVER_PROTOCOL"],'/'))).'://';
 $baseurl  = "$protocol{$_SERVER['HTTP_HOST']}";
 $endpoint = $_SERVER["REQUEST_URI"];
@@ -8,63 +10,23 @@ $endpoint = ltrim($endpoint, '/');
 $nonce    = uniqid('nonce.', true);
 $nonce    = explode(".", $nonce)[1];
 
-require 'vendor/autoload.php';
-
-$exercises = [
-  [
-    "ajax-local"              => 'allow',
-    "style-self-external-2"   => 'block', 
-    "iframe-remote-youtube"   => 'allow', 
-    "iframe-remote-youtube-2" => 'allow',
-    "form-local-1"            => '?',
-    "eval-2"                  => 'block',
-    "embed-pdf"               => 'block',
-    "stripe-button"           => 'allow',
-    'fonts-2'                 => 'allow',
-  ],
-  [
-    "ajax-local"              => 'allow',
-    "iframe-remote-youtube"   => 'block', 
-    "iframe-remote-youtube-2" => 'block',
-    "style-inline-nonce"      => 'block',
-    'inline-js-1'             => 'block', // has no nonce
-    'inline-js-2'             => 'allow',
-    'external-style'          => 'allow',
-    'embed-pdf'               => 'allow',
-    'embed-svg'               => 'block',
-  ]
-];
-
 $answers = [
   [],
   [
     'default-src'  => "'self'",
     'style-src'    => "'self' cdnjs.cloudflare.com",
     'script-src'   => "'nonce-{{nonce}}' 'self'",
-    'connect-src'  => "http://localhost:8100 ws://localhost:8110",
+    'connect-src'  => "$baseurl ws://" . getenv('REPORTER_WS'),
     'plugin-types' => "application/pdf",
   ]
 ];
 
-$exid     = $_GET['e'] ?? 0;
-$exercise = $exercises[$exid] ?? $exercises[0];
-
-ksort($exercise);
+$exercise = getExercise($_GET['e'] ?? 0);
 $ids = array_keys($exercise);
 sort($ids);
 
-$elements = file_get_contents("inc/elements.json");
-$elements = json_decode($elements, true);
-$elements = fixElements($elements, $nonce);
-
-$embeds = scriptFromElements($elements);
-$script = file_get_contents("assets/generated.tmpl.js");
-
-foreach ($embeds as $key => $embed) {
-  $script = str_replace("/*--{$key}--*/", $embed, $script);
-}
-file_put_contents("assets/generated.js", $script);
-
+$elements = getElements($nonce);
+generateScript($elements);
 
 $elements = array_filter($elements, function($el) use ($exercise) {
   return isset($exercise[$el["id"]]);
@@ -81,49 +43,13 @@ $report_url = "{$baseurl}/report.php?id={$doc_id}";
 
 $hasher = \CSP\SourceHasher::create();
 $policy = \CSP\Policy::create();
-$csp    = is_array($_POST['csp']) ? $_POST['csp'] : [] ;
-$csp    = array_values($csp);
 
-if (empty($csp)) {
-  $policy->addDirective("style-src", [
-    'self', "nonce-{$nonce}", 'report-sample',
-  ])->addDirective("script-src", [
-    'self',
-    'unsafe-eval', 
-    "nonce-{$nonce}", 
-    'report-sample', 
-    'checkout.stripe.com',
-    'cdnjs.cloudflare.com',
-    '*.jsdelivr.net', 
-    'platform.twitter.com',
-  ])->addDirective("img-src", [
-    'self',
-  ])->addDirective("child-src", [
-    'www.youtube.com', 
-    'player.vimeo.com', 
-    'checkout.stripe.com',
-    'platform.twitter.com'
-  ])->addDirective("form-action", [
-    'self'
-  ])->addDirective("object-src", [
-    
-  ]);
-}
-
-foreach ($csp as $directive) {
-  $sources = trim($directive['sources']);
-  $sources = preg_replace("/{{(\s+)?nonce(\s+)?}}/", "$nonce", $sources);
-  $policy->addDirective($directive['name'], $sources);
-}
-
-$policy->addDirective("report-uri", [
-  $report_url
-]);
-
+$policy = updateCSP($_POST['csp'], $policy, $nonce);
+$policy->addDirective("report-uri", [$report_url]);
 
 if ($policy->hasDefaultSelf()) {
   $policy->addDirective("connect-src", [
-    "ws://localhost:8110"
+    "ws://" . getenv('REPORTER_WS')
   ]);
 }
 

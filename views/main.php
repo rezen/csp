@@ -7,25 +7,24 @@
     <link rel="stylesheet" href="assets/app.css?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash('assets/app.css'); ?>" />
     <link rel="stylesheet" href="http://sneaker:8100/assets/bad.php?v=<?php echo time();  ?>" />
     <script src="assets/generated.js?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash('assets/generated.js'); ?>"></script>
+    <meta id="reporter-ws" value="<?php echo getenv('REPORTER_WS'); ?>" />
   </head>
   
   <body>
-
+    <?php include 'nav.php'; ?>
     <!-- ... -->
     <section class="page-width">
-      <div id="hide-with-css">If visible, local external css not loaded</div>
+      <div id="hide-with-css" style="font-size:400%;color:red;">
+        If visible, local external css not loaded. You need to redo your CSP
+        <?php echo str_repeat("<br />\n", 10); ?>
+      </div>
       <h3>CSP</h3>
       <?php include 'mode.php'; ?>
-      <pre class="embed"><?php printSafe(explode(";", $policy->toString())); ?></pre><!-- TODO not xss safe -->
-      <!--
-      <h3>Request Headers</h3>
-      <pre>
-        <?php printSafe(getallheaders()); ?>
-      </pre>
-      <hr />
-      <h3>Response Headers</h3>
-      <pre><?php printSafe(headers_list()); ?></pre>
-      -->
+    <?php if (!isset($_COOKIE['hide_editor'])): ?>
+      <?php require 'csp-form.php'; ?>
+    <?php else: ?>
+      <pre class="embed"><?php printSafe(explode(";", $policy->toString())); ?></pre>
+    <?php endif; ?>
     <table id="csp-examples" class="table">
       <tr>
         <th>label</th>

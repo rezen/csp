@@ -34,6 +34,16 @@ window.cancelIdleCallback =
     clearTimeout(id);
   };
 function websocketCsp() {
+    return;
+    let el1 = document.getElementById('csp-report-viewer');
+    if (!el1) {
+        return;
+    } 
+    el1.style.display = 'block';
+
+    // @todo generate error message for connection issues
+    let el = document.getElementById('reporter-ws');
+    let host = el.getAttribute('value');
     var rowTemplate = document.createElement('template');
     rowTemplate.innerHTML = `<tr>
       <td contenteditable class="csp-blocked-uri"></td>
@@ -47,7 +57,7 @@ function websocketCsp() {
     var hash = document.querySelector('[pagehash]').getAttribute('pagehash');
 
     try {
-        conn = new WebSocket('ws://localhost:8110?id=' + id + "&h=" + hash);
+        conn = new WebSocket('ws://' + host + '?id=' + id + "&h=" + hash);
         console.log(conn);
     } catch (e) {
         console.log("A websocket", e);
@@ -254,6 +264,14 @@ function executeTests() {
         return [!!pass, id];
     });
 
+    let hasGoals = document.querySelector("#csp-examples tbody tr");
+    if (!hasGoals) {
+        return;
+    }
+
+    if (hasGoals.children.length < 5) {
+        return;
+    }
     // How many of the results match up?
     let failed = Array.from(document.querySelectorAll('#csp-examples tbody tr'))
         .map(el => {

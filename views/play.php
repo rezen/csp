@@ -8,9 +8,12 @@
     <link rel="stylesheet" href="assets/app.css?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash('assets/app.css'); ?>" />
     <link rel="stylesheet" href="http://sneaker:8100/assets/bad.php?v=<?php echo time();  ?>" />
     <script src="assets/generated.js?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash('assets/generated.js'); ?>"></script>
+    <meta id="reporter-ws" value="<?php echo getenv('REPORTER_WS'); ?>" />
   </head>
   
   <body>
+      <?php include 'nav.php'; ?>
+
     <!-- ... -->
     <section class="page-width">
       <div id="hide-with-css">If visible, local external css not loaded</div>

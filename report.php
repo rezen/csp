@@ -26,6 +26,20 @@ if (!file_exists("logs/policy-$hash.log")) {
 
 file_put_contents("logs/policy-$hash.log", "$as_string\n", FILE_APPEND);
 
+// Clean up older logs
+$files = glob("logs/*");
+$now   = time();
+$minute  = 60;
+
+foreach ($files as $file) {
+    if (!is_file($file)) {
+      continue;
+    }
+    if ($now - filemtime($file) >= $minute * 10) {
+        unlink($file);
+    }
+}
+
 $client = new Hoa\Websocket\Client(
     new Hoa\Socket\Client('ws://ws:8110')
 );

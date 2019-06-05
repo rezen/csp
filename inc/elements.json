@@ -325,7 +325,7 @@
     {
         "id": "img-src-blob",
         "label": "image blob",
-        "html": "<img id='{{ id }}' alt='blob url' src='blob:http:\/\/localhost:8000\/1b7b9af0-127b-43bc-95d9-800df9c08df0' \/>",
+        "html": "<img id='{{ id }}' alt='blob url' src='blob:http:\/\/site.example.com\/1b7b9af0-127b-43bc-95d9-800df9c08df0' \/>",
         "category": "",
         "validate": {
             "allow": "document.querySelector(`[data-id='{{ id }}'] img`).hasAttribute('data-loaded')"
@@ -491,7 +491,8 @@
         ],
         "category": "",
         "validate": {
-            "allow": "document.querySelector(`[data-id='{{ id }}'] embed`).hasAttribute('data-loaded')"
+            "allow": "!!document.querySelector(`[data-id='{{ id }}'] embed`).getSVGDocument()",
+            "_allow": "document.querySelector(`[data-id='{{ id }}'] embed`).hasAttribute('data-loaded')"
         }
     },
 

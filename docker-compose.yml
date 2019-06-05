@@ -7,10 +7,13 @@ services:
     build:
       context: . 
       dockerfile: Dockerfile.web
+    environment: 
+      - REPORTER_WS=localhost:8110
     volumes:
       - ./:/var/www/html/
     ports:
       - "8100:80"
+    command: cat /etc/apache2/apache2.conf
   
   ws:
     build:

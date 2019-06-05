@@ -168,7 +168,8 @@ textarea {
 #csp-report-viewer{
   background: rgba(0, 0, 0, 0.3);
 	overflow-x: hidden;
-	padding: 20px;
+  padding: 20px;
+  display: none;
 
 	/*
 	position: fixed;
@@ -286,4 +287,15 @@ textarea {
   text-align: right;
   display: inline-block;
   float: right;
+}
+
+#main-menu {
+  background: #eee;
+}
+
+#main-menu li {
+  display: inline-block;
+}
+#main-menu li a {
+  display: inline-block;
 }

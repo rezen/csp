@@ -166,3 +166,95 @@ function printSafe($data) {
     echo "[" . htmlentities($key) . "] => " . htmlentities($val) . PHP_EOL;
   }
 }
+
+function getElements($nonce) {
+  $elements = file_get_contents("inc/elements.json");
+  $elements = json_decode($elements, true);
+  return fixElements($elements, $nonce);
+}
+
+
+function generateScript($elements) {
+  $embeds = scriptFromElements($elements);
+  $script = file_get_contents("assets/generated.tmpl.js");
+  
+  foreach ($embeds as $key => $embed) {
+    $script = str_replace("/*--{$key}--*/", $embed, $script);
+  }
+  file_put_contents("assets/generated.js", $script);  
+}
+
+
+function getExercise($id) {
+  // @todo migrate to json
+  $exercises = [
+    [
+      "ajax-local"              => 'allow',
+      "style-self-external-2"   => 'block', 
+      "iframe-remote-youtube"   => 'allow', 
+      "iframe-remote-youtube-2" => 'allow',
+      "form-local-1"            => '?',
+      "eval-2"                  => 'block',
+      "embed-pdf"               => 'block',
+      "stripe-button"           => 'allow',
+      'fonts-2'                 => 'allow',
+    ],
+    [
+      "ajax-local"              => 'allow',
+      "iframe-remote-youtube"   => 'block', 
+      "iframe-remote-youtube-2" => 'block',
+      "style-inline-nonce"      => 'block',
+      'inline-js-1'             => 'block', // has no nonce
+      'inline-js-2'             => 'allow',
+      'external-style'          => 'allow',
+      'embed-pdf'               => 'allow',
+      'embed-svg'               => 'block',
+    ]
+  ];
+
+  $exercise = $exercises[$id] ?? $exercises[0];
+  ksort($exercise);
+  return $exercise;
+}
+
+function updateCSP($csp, $policy, $nonce) {
+  $csp  = is_array($csp) ? $csp : [];
+  $csp  = array_values($csp);
+  if (empty($csp)) {
+    $policy->addDirective("style-src", [
+      'self', "nonce-{$nonce}", 'report-sample',
+    ])->addDirective("script-src", [
+      'self',
+      'unsafe-eval', 
+      "nonce-{$nonce}", 
+      'report-sample', 
+      'checkout.stripe.com',
+      'cdnjs.cloudflare.com',
+      '*.jsdelivr.net', 
+      'platform.twitter.com',
+    ])->addDirective("img-src", [
+      'self',
+    ])->addDirective("child-src", [
+      'www.youtube.com', 
+      'player.vimeo.com', 
+      'checkout.stripe.com',
+      'platform.twitter.com'
+    ])->addDirective("form-action", [
+      'self'
+    ])->addDirective("object-src", [
+      "'self'"
+    ])->addDirective("plugin-types", [
+      'image/svg+xml'
+    ]);
+  }
+  foreach ($csp as $directive) {
+    $sources = trim($directive['sources']);
+    $sources = preg_replace("/{{(\s+)?nonce(\s+)?}}/", "$nonce", $sources);
+    $policy->addDirective($directive['name'], $sources);
+  }
+
+  $policy->addDirective("style-src", ["'self'"]);
+  $policy->addDirective("script-src", ["'self'"]);
+
+  return $policy;
+}
