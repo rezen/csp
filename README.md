@@ -11,6 +11,11 @@ composer install
 php -S 127.0.0.1:8000 -t ./
 ```
 
+# git checkout --orphan android
+
+git subtree push --prefix csp-main heroku master
+
+
 ## Play
 - **elements** What elements will load on the page?
 - **allow** What should we allow on the page?

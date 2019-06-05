@@ -3,6 +3,10 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends git zip
 
 RUN curl --silent --show-error https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
-COPY . /var/www/html
+RUN mkdir -p /var/www/html/logs
+COPY ./vendor /var/www/html/vendor
+COPY ws.php \ 
+    composer.json \ 
+    composer.lock /var/www/html/
 WORKDIR /var/www/html/
-CMD bash -c "( [ ! -d ./vendor ] && composer install ); php ws.php
+CMD  /usr/local/bin/php ws.php

@@ -1,6 +1,5 @@
 {
     "require": {
-        "cboden/ratchet": "^0.4.1",
         "hoa/websocket": "~3.0"
     },
     "autoload": {

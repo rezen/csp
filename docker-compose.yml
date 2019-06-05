@@ -3,26 +3,27 @@ version: '3'
 services:
   web:
     depends_on: 
-      - ws
+      - csp-ws
     build:
-      context: . 
-      dockerfile: Dockerfile.web
+      context: ./csp-main
+      dockerfile: Dockerfile
     environment: 
+      - PORT=8100
       - REPORTER_WS=localhost:8110
     volumes:
-      - ./:/var/www/html/
+      - ./csp-main:/var/www/html/
+      - ./_shared:/data/logs/
     ports:
-      - "8100:80"
-    command: cat /etc/apache2/apache2.conf
+      - "8100:8100"
   
-  ws:
+  csp-ws:
     build:
-      context: . 
-      dockerfile: Dockerfile.ws
-
+      context: ./csp-ws/
+      dockerfile: ./Dockerfile
     volumes:
-      - ./:/var/www/html/
+      - ./_shared:/data/logs/
+    environment: 
+      - PORT=8110
     working_dir: /var/www/html/
-    command: bash -c "( [ ! -d ./vendor ] && composer install ); php ws.php"
     ports:
       - "8110:8110"

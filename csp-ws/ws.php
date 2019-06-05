@@ -1,21 +1,19 @@
 <?php
 
+require 'vendor/autoload.php';
+
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 
-require 'vendor/autoload.php';
-
-
 class Reporter implements MessageComponentInterface 
 {
     protected $clients;
 
-    function __construct($logPath) 
+    function __construct() 
     {
-        $this->logPath = $logPath;
         $this->clients = new \SplObjectStorage;
         $this->backlog = [];
     }
@@ -95,15 +93,16 @@ class Reporter implements MessageComponentInterface
     }
 }
 
+$port = getenv("PORT");
 $server = IoServer::factory(
     new HttpServer(
         new WsServer(
-            new Reporter(dirname(__FILE__) . "/logs/")
+            new Reporter()
         )
     ),
-    8110
+    $port
 );
 
-echo "[i] Websockets on port 8110\n";
+echo "[i] Websockets on port $port\n";
 
 $server->run();
