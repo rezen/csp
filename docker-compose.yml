@@ -2,8 +2,7 @@ version: '3'
 
 services:
   web:
-    depends_on: 
-      - csp-ws
+    depends_on: []
     build:
       context: ./csp-main
       dockerfile: Dockerfile
@@ -15,15 +14,3 @@ services:
       - ./_shared:/data/logs/
     ports:
       - "8100:8100"
-  
-  csp-ws:
-    build:
-      context: ./csp-ws/
-      dockerfile: ./Dockerfile
-    volumes:
-      - ./_shared:/data/logs/
-    environment: 
-      - PORT=8110
-    working_dir: /var/www/html/
-    ports:
-      - "8110:8110"

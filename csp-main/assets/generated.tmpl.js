@@ -33,17 +33,35 @@ window.cancelIdleCallback =
   function (id) {
     clearTimeout(id);
   };
-function websocketCsp() {
-    return;
+
+  // @todo pageexit to delete logs
+function reportViewer() {
     let el1 = document.getElementById('csp-report-viewer');
     if (!el1) {
         return;
     } 
+    let d = {
+        counter: 0,
+        lines: [],
+        shouldEnd: false
+    };
+
     el1.style.display = 'block';
 
-    // @todo generate error message for connection issues
-    let el = document.getElementById('reporter-ws');
-    let host = el.getAttribute('value');
+    var btn = document.createElement('button');
+    btn.innerText = 'Refresh';
+    btn.style.display = "none"
+    btn.className = "trigger-refresh";
+    btn.setAttribute('type', 'button');
+
+    el1.prepend(btn);
+    el1.addEventListener('click', function() {
+        refresh(d);
+    })
+
+    var id = document.querySelector('[data-doc-id]').getAttribute('data-doc-id');
+    var hash = document.querySelector('[pagehash]').getAttribute('pagehash');
+
     var rowTemplate = document.createElement('template');
     rowTemplate.innerHTML = `<tr>
       <td contenteditable class="csp-blocked-uri"></td>
@@ -52,50 +70,61 @@ function websocketCsp() {
       <td></td>
       <td></td>
     </tr>`;
-    var conn = {};
-    var id = document.querySelector('[data-doc-id]').getAttribute('data-doc-id');
-    var hash = document.querySelector('[pagehash]').getAttribute('pagehash');
+    let lastSize = -1;
+    let counter = 0;
 
-    try {
-        conn = new WebSocket(host + '?id=' + id + "&h=" + hash);
-        console.log(conn);
-    } catch (e) {
-        console.log("A websocket", e);
-    }
-    
-    conn.onopen = function(e) {
-        console.log("Connection established!");
-    };
-
-    conn.onmessage = function(e) {
-        console.log("on-message");
+    function redraw(lines) {
         var reports = document.getElementById('csp-reports');
-        var lines = e.data
-            .split("\n")
-            .filter(l => l.length > 2)
-            .map(function(line) {
-                try { 
-                    return JSON.parse(line.trim());
-                } catch (e) {
-                    return line.trim();
-                }
-            })
-            .filter(d => !!d)
-            .map(d => {
-                var el = document.importNode(rowTemplate.content, true);
-                var td = el.querySelectorAll("td");
-                td[0].textContent = d['blocked-uri'];
-                td[0].setAttribute('title', td[0].textContent);
-                td[1].textContent = d['violated-directive'];
-                td[2].textContent = d['line-number'] || '';
-                td[3].textContent = d['column-number'] || '';
-                td[4].textContent = d['script-sample'] || '';
-                return el;
-            })
-            .map(el => reports.appendChild(el));
-    };
-}
+        reports.innerHTML = "";
+        lines.map(d => {
+            var el = document.importNode(rowTemplate.content, true);
+            var td = el.querySelectorAll("td");
+            td[0].textContent = d['blocked-uri'];
+            td[0].setAttribute('title', td[0].textContent);
+            td[1].textContent = d['violated-directive'];
+            td[2].textContent = d['line-number'] || '';
+            td[3].textContent = d['column-number'] || '';
+            td[4].textContent = d['script-sample'] || '';
+            return el;
+        })
+        .map(el => reports.appendChild(el));
+    }
 
+    function refresh(state, cb) {
+        cb = cb || function() {};
+        state.counter += 1;
+        fetch('/reader.php?id='  + id)
+        .then(res => res.text())
+        .then(d => {
+            let lines = d.split("\n")
+                .filter(l => l.length > 2)
+                .map(function(line) {
+                    try { 
+                        return JSON.parse(line.trim());
+                    } catch (e) {
+                        return line.trim();
+                    }
+                })
+                .filter(d => !!d);
+            
+            state.lastSize = lines.length;
+            redraw(lines);
+            if (state.lastSize === lines.length && state.counter > 3) {
+                state.shouldEnd = true;
+                cb();
+            }
+        })
+    }
+    let handle = setInterval(function() {
+        refresh(d, function() {
+            btn.style.display = "block";
+            clearInterval(handle);
+            setTimeout(function() {
+                refresh(d);
+            }, 4000);
+        });
+    }, 1000);
+}
 
 function generateBlobImage() {
     var binary = atob("iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==");
@@ -105,7 +134,6 @@ function generateBlobImage() {
     }
     return new Blob([new Uint8Array(array)], {type: 'image/png'});
 }
-
 
 function cspForm() {
     try {
@@ -244,7 +272,8 @@ document.addEventListener('DOMContentLoaded', function() {
         el.onloadedmetadata = setLoaded;
     });
     window.requestIdleCallback(function() {
-        websocketCsp();
+        // websocketCsp();
+        reportViewer();
     });
 });
 

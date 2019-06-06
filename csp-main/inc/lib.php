@@ -258,3 +258,20 @@ function updateCSP($csp, $policy, $nonce) {
 
   return $policy;
 }
+
+
+function cleanupLogs() {
+  // Clean up older logs
+  $files = glob("logs/*");
+  $now   = time();
+  $minute  = 60;
+
+  foreach ($files as $file) {
+      if (!is_file($file)) {
+        continue;
+      }
+      if ($now - filemtime($file) >= $minute * 5) {
+          unlink($file);
+      }
+  }
+}

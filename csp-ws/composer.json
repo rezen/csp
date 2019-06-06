@@ -1,8 +1,0 @@
-{
-    "require": {
-        "cboden/ratchet": "^0.4.1"
-    },
-    "autoload": {
-       
-    }
- }
