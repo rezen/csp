@@ -10,13 +10,9 @@ docker-compose up
 composer install
 php -S 127.0.0.1:8000 -t ./
 ```
-
-
-
 heroku create
 git subtree push --prefix csp-main heroku master
-git remote add heroku2 https://git.heroku.com/csp-ws.git
-git subtree push --prefix csp-ws heroku2 master
+
 
 ## Play
 - **elements** What elements will load on the page?
@@ -25,6 +21,10 @@ git subtree push --prefix csp-ws heroku2 master
   - CSP Reports
   - document.querySelector('iframe').contentWindow.location.href
   - https://codepen.io/smonn/pen/gaeVae
+
+
+## Todo
+- Redis for logging on Heroku
 
 ### Links
 - https://www.html5rocks.com/en/tutorials/security/content-security-policy/

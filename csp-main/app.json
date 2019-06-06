@@ -1,0 +1,17 @@
+{
+    "name": "csp-main",
+    "scripts": {},
+    "env": {},
+    "addons": [
+      {
+        "plan": "heroku-redis:hobby-dev",
+        "as": "REDIS"
+      }
+    ],
+    "buildpacks": [
+      
+    ],
+    "environments": {
+     
+    }
+  }

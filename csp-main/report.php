@@ -15,6 +15,7 @@ $data['csp-report']['doc_id'] = $doc_id;
 unset($data['csp-report']['original-policy']);
 $as_string = json_encode($data['csp-report']);
 
+// $client = new Predis\Client('tcp://10.0.0.1:6379');
 
 if (preg_match('/^[a-z0-9]+$/', $doc_id)) {
     $log_file = "$log_dir/doc-$doc_id.log";
