@@ -43,6 +43,7 @@ function reportViewer() {
     if (!isLocal()) {
         return;
     }
+
     let el1 = document.getElementById('csp-report-viewer');
     if (!el1) {
         return;

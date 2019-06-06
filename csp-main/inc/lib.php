@@ -275,3 +275,41 @@ function cleanupLogs() {
       }
   }
 }
+
+function echoLogRedis($doc_id) {
+  $client = new Predis\Client('tcp://' . getenv('REDIS'));
+  foreach ($client->lrange("doc-$doc_id", 0, -1) as $line) {
+    echo $line . "\n";
+  }
+}
+
+function echoLogFs($doc_id, $log_dir) {
+  $log_file = "$log_dir/doc-$doc_id.log";
+  if (!file_exists($log_file)) {
+      exit;
+  }
+  echo file_get_contents($log_file);
+  cleanupLogs();
+}
+
+function logCspRedis($doc_id, $violation) {
+  $client = new Predis\Client('tcp://' . getenv('REDIS'));
+  $client->rpush("doc-$doc_id", "$violation");
+  $client->expire("doc-$doc_id", 60 * 5); // Expire in 5 minutes   
+}
+
+function logCspFs($doc_id, $violation, $log_dir) {
+  $log_file = "$log_dir/doc-$doc_id.log";
+  if (!file_exists($log_file)) {
+      touch($log_file);
+  }
+  
+  file_put_contents($log_file, "$as_string\n", FILE_APPEND);
+  
+  if (!file_exists("$log_dir/policy-$hash.log")) {
+      file_put_contents("$log_dir/policy-$hash.log", json_encode(["original_policy" => $policy]));
+  }
+  
+  file_put_contents("$log_dir/policy-$hash.log", "$as_string\n", FILE_APPEND);
+  cleanupLogs();
+}

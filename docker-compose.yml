@@ -9,8 +9,15 @@ services:
     environment: 
       - PORT=8100
       - USE_REPORTER=1
+      - REDIS=redis:6379 
     volumes:
       - ./csp-main:/var/www/html/
       - ./_shared:/data/logs/
     ports:
       - "8100:8100"
+  redis:
+    image: redis:5.0.5-stretch
+    expose:
+      - 6379
+    ports:
+      - "6379:6379"

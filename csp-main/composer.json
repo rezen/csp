@@ -1,5 +1,7 @@
 {
-    "require": {},
+    "require": {
+        "predis/predis": "^1.1"
+    },
     "autoload": {
        "psr-4": {
             "CSP\\": "inc/csp"
