@@ -34,8 +34,15 @@ window.cancelIdleCallback =
     clearTimeout(id);
   };
 
-  // @todo pageexit to delete logs
+
+function isLocal() {
+    return (location.hostname.indexOf("localhost") >= 0 || location.hostname.indexOf("127.0.0") >= 0);
+}
+// @todo pageexit to delete logs
 function reportViewer() {
+    if (!isLocal()) {
+        return;
+    }
     let el1 = document.getElementById('csp-report-viewer');
     if (!el1) {
         return;
