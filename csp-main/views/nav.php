@@ -9,5 +9,8 @@
         <li>
             <a href="/about.php">about</a>
         </li>
+        <li>
+            <a href="https://github.com/rezen/csp">source</a>        
+        </li>
     </ul>
 </nav>
