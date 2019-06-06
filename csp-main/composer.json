@@ -1,7 +1,5 @@
 {
-    "require": {
-        "hoa/websocket": "~3.0"
-    },
+    "require": {},
     "autoload": {
        "psr-4": {
             "CSP\\": "inc/csp"

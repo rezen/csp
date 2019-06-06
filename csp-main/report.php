@@ -24,7 +24,6 @@ if (preg_match('/^[a-z0-9]+$/', $doc_id)) {
     file_put_contents($log_file, "$as_string\n", FILE_APPEND);
 }
 
-
 if (!file_exists("logs/policy-$hash.log")) {
     file_put_contents("logs/policy-$hash.log", json_encode(["original_policy" => $policy]));
 }
@@ -32,13 +31,3 @@ if (!file_exists("logs/policy-$hash.log")) {
 file_put_contents("logs/policy-$hash.log", "$as_string\n", FILE_APPEND);
 
 cleanupLogs();
-
-/*
-$client = new Hoa\Websocket\Client(
-    new Hoa\Socket\Client('ws://csp-ws:8110')
-);
-
-$client->setHost('ws');
-$client->connect();
-$client->send($as_string);
-*/
