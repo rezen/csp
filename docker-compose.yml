@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     environment: 
       - PORT=8100
-      - REPORTER_WS=ws://localhost:8110
+      - USE_REPORTER=1
     volumes:
       - ./csp-main:/var/www/html/
       - ./_shared:/data/logs/

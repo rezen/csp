@@ -40,18 +40,24 @@ ksort($elements);
 
 $doc_id     = uniqid();
 $report_url = "{$baseurl}/report.php?id={$doc_id}";
+$should_report = (in_array(getenv('USE_REPORTER'), ['1', 'Y', 'y']));
 
 $hasher = \CSP\SourceHasher::create();
 $policy = \CSP\Policy::create();
 
 $policy = updateCSP($_POST['csp'], $policy, $nonce);
-$policy->addDirective("report-uri", [$report_url]);
 
+if ($should_report) {
+  $policy->addDirective("report-uri", [$report_url]);
+}
+
+/*
 if ($policy->hasDefaultSelf()) {
   $policy->addDirective("connect-src", [
     "ws://" . getenv('REPORTER_WS')
   ]);
 }
+*/
 
 $policy->isReportOnly = isset($_GET['ro']);
 
@@ -61,11 +67,13 @@ if ($policy->isReportOnly) {
   header("Content-Security-Policy: " . $policy->toString());
 }
 
-header("Report-To: " . json_encode([
-  "group"     => "csp",
-  "max_age"   => 10886400,
-  "endpoints" => [[ "url" => "$report_url&from-report-to=1", "priority" => 2 ]] 
-]));
+if ($should_report) {
+  header("Report-To: " . json_encode([
+    "group"     => "csp",
+    "max_age"   => 10886400,
+    "endpoints" => [[ "url" => "$report_url&from-report-to=1", "priority" => 2 ]] 
+  ]));
+}
 header('Cache-Control: no-store');
 header('X-XSS-Protection: 0');
 
