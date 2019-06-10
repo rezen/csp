@@ -114,13 +114,14 @@ function reportViewer() {
                     }
                 })
                 .filter(d => !!d);
-            
-            state.lastSize = lines.length;
-            redraw(lines);
-            if (state.lastSize === lines.length && state.counter > 3) {
+        
+            if (state.lastSize <= lines.length) {
+                redraw(lines);
+            } else if (state.lastSize === lines.length && state.counter > 3) {
                 state.shouldEnd = true;
                 cb();
             }
+            state.lastSize = lines.length;
         })
     }
     let handle = setInterval(function() {

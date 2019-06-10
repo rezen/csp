@@ -8,10 +8,6 @@
         "as": "REDIS"
       }
     ],
-    "buildpacks": [
-      
-    ],
-    "environments": {
-     
-    }
+    "buildpacks": [],
+    "environments": {}
   }

@@ -173,7 +173,6 @@ function getElements($nonce) {
   return fixElements($elements, $nonce);
 }
 
-
 function generateScript($elements) {
   $embeds = scriptFromElements($elements);
   $script = file_get_contents("assets/generated.tmpl.js");

@@ -78,7 +78,7 @@ header('Cache-Control: no-store');
 header('X-XSS-Protection: 0');
 
 ob_start();
-require 'views/play.php';
+require 'views/exercise.php';
 $output = ob_get_contents();
 ob_end_clean();
 

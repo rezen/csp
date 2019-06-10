@@ -1,18 +1,14 @@
 # CSP
+The best way to learn CSP is to play with policy creation & see how policies affect
+resources on the page!
+
+You can play with CSP at https://csp-main.herokuapp.com/ or by running locally. When you run locally you have the added benefit of CSP violation reporting being displayed in page.
 
 ```sh
-sudo bash -c "echo '127.0.0.1    sneaker' >> /etc/hosts"
-
 # Run with docker ....
 docker-compose up
-
-# ... or just with php
-composer install
-php -S 127.0.0.1:8000 -t ./
+open http://localhost:8100/
 ```
-heroku create
-git subtree push --prefix csp-main heroku master
-
 
 ## Play
 - **elements** What elements will load on the page?
@@ -20,11 +16,15 @@ git subtree push --prefix csp-main heroku master
 - **proof** How can we prove the CSP worked?
   - CSP Reports
   - document.querySelector('iframe').contentWindow.location.href
-  - https://codepen.io/smonn/pen/gaeVae
-
 
 ## Todo
-- Redis for logging on Heroku
+- Setup app for "bad actor" exfil
+
+### Deploy
+```sh
+heroku create
+git subtree push --prefix csp-main heroku master
+```
 
 ### Links
 - https://www.html5rocks.com/en/tutorials/security/content-security-policy/

@@ -10,7 +10,7 @@ $endpoint = ltrim($endpoint, '/');
 $hasher   = \CSP\SourceHasher::create();
 
 header('Cache-Control: no-store');
-header('X-XSS-Protection: 0');
+header('X-XSS-Protection: 1');
 
 
 require 'views/about.php';

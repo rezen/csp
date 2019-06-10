@@ -12,7 +12,7 @@ COPY ./assets ./inc ./views  /var/www/html/
 COPY about.php \
     ajax.php \
     index.php \
-    play.php \
+    exercise.php \
     x.php \
     xss.php \ 
     report.php \ 

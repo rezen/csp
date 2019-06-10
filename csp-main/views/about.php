@@ -19,8 +19,9 @@
         interact with. This feature enables developers to mitigate a number
         of client side attacks.</p>
         <p>One of the best ways to learn CSP is to play with CSP. 
-        Below are all sorts of resources you can control browser 
-        behaviour for.</p>
+        Checkout the github repo README for links to content to help 
+          <a href="https://github.com/rezen/csp">Github</a>
+        </p>
       </section>
     </section>
 </body>

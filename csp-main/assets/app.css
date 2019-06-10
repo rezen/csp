@@ -293,6 +293,8 @@ textarea {
 
 #main-menu {
   background: #eee;
+  font-size: 120%;
+  font-weight: bold;
 }
 
 #main-menu li {
@@ -300,7 +302,24 @@ textarea {
 }
 #main-menu li a {
   display: inline-block;
+  padding: 12px 4px;
+  color: rgb(39, 42, 45);
+  text-decoration: none;
 }
+
+a {
+  position: relative;
+  top: 0;
+  opacity: 1;
+  transition: all 100ms;
+  -webkit-transition:all 100ms;
+
+}
+a:hover {
+  top: 1px;
+  opacity: 0.7;
+}
+
 
 .trigger-refresh {
   display: block;
@@ -310,4 +329,25 @@ textarea {
   margin: 0 auto;
   left: calc(50% - 50px);
   width: 100px;
+}
+
+#explanation {
+  background: rgb(59, 61, 64);
+  padding: 20px;
+  max-width: 700px;
+  margin: 30px auto 0 auto;
+}
+
+.github-link {
+  float: right;
+  position: relative;
+  padding: 0px 20px 0px 40px;
+  background: rgba(59, 61, 64, 0.3);
+}
+.github-link img {
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  top: 13px;
+  left: -20px;
 }
