@@ -47,6 +47,17 @@ $policy = \CSP\Policy::create();
 
 $policy = updateCSP($_POST['csp'], $policy, $nonce);
 
+
+if (empty($_POST['csp'])) {
+  $policy->addDirective('connect-src', []);
+
+  // $policy->addDirective('default-src', ['self']);
+  $policy->addDirective('child-src', ['self']);
+  $policy->clearDirective('plugin-types');
+  $policy->clearDirective('script-src');
+  $policy->removeSource('checkout.stripe.com');
+}
+
 if ($should_report) {
   $policy->addDirective("report-uri", [$report_url]);
 }

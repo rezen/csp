@@ -56,8 +56,8 @@ $cleaned = str_replace($doc_id, "id", $cleaned);
 $cleaned = preg_replace('/v=[0-9]+/', '', $cleaned);
 
 $page_hash = md5($cleaned);
-file_put_contents("logs/$page_hash.html", $cleaned);
-
+// Possibly useful for local play ...
+// file_put_contents("logs/$page_hash.html", $cleaned);
 
 header("X-Hash: $page_hash");
 $output = str_replace('<!--pagehash-->', "<meta pagehash='$page_hash' />", $output);

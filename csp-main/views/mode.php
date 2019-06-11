@@ -1,4 +1,4 @@
-<div class="csp-enforce-status">
+<div class="embed light csp-enforce-status">
 <?php if (isset($_GET['ro'])): ?>
     <strong>Is Report Only</strong>
     <a href="?">Enforce CSP</a>

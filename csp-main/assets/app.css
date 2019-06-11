@@ -66,6 +66,11 @@ table {
 td {
   padding: 6px 12px;
   text-align: left;
+  position: relative;
+
+}
+
+tr {
 }
 
 td pre {
@@ -225,7 +230,6 @@ textarea {
   vertical-align:top;
   width: 20%;
   margin-right: 10px;
-  padding: 20px;
   font-size: 16px;
 
 }
@@ -278,13 +282,6 @@ textarea {
   text-align: center;
 }
 
-.csp-enforce-status {
-  background: rgb(160, 163, 169);
-  padding: 8px 12px;
-  border-radius: 2px;
-  color:#222;
-  margin-bottom: 8px;
-}
 .csp-enforce-status a {
   text-align: right;
   display: inline-block;
@@ -332,12 +329,21 @@ a:hover {
 }
 
 #explanation {
-  background: rgb(59, 61, 64);
-  padding: 20px;
   max-width: 700px;
   margin: 30px auto 0 auto;
 }
 
+.embed {
+  border-radius: 2px;
+  background: rgb(59, 61, 64);
+  padding: 20px;
+  margin-bottom: 8px;
+}
+
+.embed.light {
+  background: rgb(160, 163, 169);
+  color: #222;
+}
 .github-link {
   float: right;
   position: relative;
@@ -350,4 +356,39 @@ a:hover {
   position: absolute;
   top: 13px;
   left: -20px;
+}
+
+.hint {
+  cursor: pointer;
+  background: rgb(73,155,234); 
+  display: inline-block;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: normal;
+  padding-top: 2px;
+  margin: 0 8px 0 -30px;
+}
+
+.hint:hover ~ .category-hint{
+  display: block;
+}
+.category-hint {
+  color: #000;
+  position: absolute;
+  background: rgba(187, 223, 114, 0.9);
+  padding: 12px;
+  width: 400px;
+  z-index: 8;
+  display: none;
+  border-radius: 2px;
+  top: 10px;
+  left: 28px;
+  font-weight: normal;
+}
+
+.category-hint code {
+  font-weight: bold;
 }

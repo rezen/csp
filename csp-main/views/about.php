@@ -13,7 +13,7 @@
     <?php include 'nav.php'; ?>
     <!-- ... -->
     <section class="page-width">
-      <section id="explanation">
+      <section id="explanation" class="embed">
         <p>CSP (content security policy) is a browser feature that enables you to 
         specify a policy of what resources on your site the browser is entitled to 
         interact with. This feature enables developers to mitigate a number

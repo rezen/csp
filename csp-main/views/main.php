@@ -18,7 +18,6 @@
         If visible, local external css not loaded. You need to redo your CSP
         <?php echo str_repeat("<br />\n", 10); ?>
       </div>
-      <h3>CSP</h3>
       <?php include 'mode.php'; ?>
     <?php if (!isset($_COOKIE['hide_editor'])): ?>
       <?php require 'csp-form.php'; ?>

@@ -57,6 +57,18 @@ class Policy
         return $this->addDirective($parts[0], $sources);
     }
 
+    function clearDirective($name)
+    {
+        unset($this->directives[$name]);
+    }
+
+    function removeSource($source)
+    {
+        foreach ($this->directives as $name => &$directive) {
+           $directive->removeSource($source);
+        }
+    }
+
     function addDirective($name, $sources=[], $replace=false)
     {
         if (is_string($sources)) {

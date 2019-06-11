@@ -17,9 +17,10 @@
     <!-- ... -->
     <section class="page-width">
       <div id="hide-with-css">If visible, local external css not loaded</div>
-      <h3>CSP</h3>
-      <?php include 'mode.php'; ?>
-
+      <p class="embed light">
+        Try to get the <strong>RAN</strong> column to match the <strong>GOAL</strong>
+        column
+      </p>
       <!--
       <pre class="embed"><?php printSafe(explode(";", $policy->toString())); ?></pre>
       -->
@@ -40,7 +41,12 @@
       <?php foreach ($elements as $idx => $el): ?>
         <tr data-id="<?php echo $el['id']; ?>" data-goal="<?php echo $el['goal']; ?>">
           <td>
+          <span class="hint">?</span>
             <?php echo $el['label']; ?>
+            <div class="category-hint">
+              Play with <code><?php echo $el['category']; ?></code> 
+              to block or allow 
+            </div>
           </td>
           <td>
             <?php echo $el['html']; ?>
@@ -75,18 +81,18 @@
     </table>
 </section>
 <section id="csp-report-viewer">
-      <table>
-        <thead>
-          <tr>
-            <th>violator</th>
-            <th>directive</th>
-            <th>line</th>
-            <th>col</th>
-            <th>sample</th>
-          </tr>
-        </thead>
-        <tbody id="csp-reports"></tbody>
-      </table>
-    </section>
+  <table>
+    <thead>
+      <tr>
+        <th>violator</th>
+        <th>directive</th>
+        <th>line</th>
+        <th>col</th>
+        <th>sample</th>
+      </tr>
+    </thead>
+    <tbody id="csp-reports"></tbody>
+  </table>
+</section>
 </body>
 </html>

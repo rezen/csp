@@ -96,6 +96,13 @@ class Directive
         return count($this->sources) === 0;
     }
 
+    function removeSource($source)
+    {
+        $this->sources = array_filter($this->sources, function($src) use ($source) {
+            return $src !== $source;
+        });
+    }
+
     function addSource($source)
     {
         if (strlen($source) === 0) {
