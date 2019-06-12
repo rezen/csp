@@ -237,7 +237,7 @@ function runDomready() {
 document.addEventListener('DOMContentLoaded', function() {
     try {
         runDomready();
-        executeTests();
+        executeTests(window);
     } catch (e) {}
 
     try {
@@ -253,9 +253,9 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
     setTimeout(function() {
-        executeTests();
+        executeTests(window);
         setTimeout(function() {
-            executeTests();
+            executeTests(window);
         }, 2000);
     }, 2000);
 
@@ -286,13 +286,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function executeTests() {
+function executeTests(ctx) {
     let allow = () => '?';
     let run = Array.from(document.querySelectorAll('[data-id]'))
         .map(el => el.getAttribute('data-id'));
 
     run.map(id => {
-        let pass = (tests[id] || {allow}).allow();
+        let pass = (ctx.tests[id] || {allow}).allow();
         let content = '❓';
         if (pass !== '?') {
             content = pass ? '✅' : '⛔';
@@ -325,7 +325,6 @@ function executeTests() {
     }
     $progress.setAttribute('max', run.length)
     $progress.setAttribute('value', run.length - failed.length);
-
 }
 
 /*--global--*/

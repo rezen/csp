@@ -543,5 +543,28 @@
         "label": "Target for another domain",
         "html": "<a id=\"{{ id }}\" href=\"https://www.ebay.com\" target=\"_blank\">Ebay.com<\/p>",
         "category": "sandbox"
+    },
+    {
+        "id": "worker-1",
+        "label": "A local webworker",
+        "html": "<p id='{{ id }}'>Waiting for worker ...</p>",
+        "category": "child-src worker-src",
+        "script": {
+            "global": [
+                "(function(){",
+                "  if (!window.Worker) { return;}",
+                "  const worker = new Worker('/assets/worker.js');",
+                "  worker.onerror = function(e) {};",
+                "  worker.onmessage = function(e) {",
+                "    var el = document.getElementById('worker-1');",    
+                "    el.textContent = 'Result from worker - ' + e.data;",
+                "  };",
+                "  setTimeout(() => worker.postMessage([2, 2]), 1000);",
+                "})();"
+            ]
+        },
+        "validate": {
+            "allow": "document.getElementById('{{ id }}').textContent.indexOf(`Result from worker - 4`) >= 0"
+        }
     }
 ]
