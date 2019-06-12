@@ -56,6 +56,8 @@ if (empty($_POST['csp'])) {
   $policy->clearDirective('plugin-types');
   $policy->clearDirective('script-src');
   $policy->removeSource('checkout.stripe.com');
+  $policy->removeSource('nonce');
+  $policy->removeSource('player.vimeo.com');
 }
 
 if ($should_report) {

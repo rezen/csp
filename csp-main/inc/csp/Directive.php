@@ -99,6 +99,9 @@ class Directive
     function removeSource($source)
     {
         $this->sources = array_filter($this->sources, function($src) use ($source) {
+            if ($source === 'nonce' && strpos($src, "'nonce-") === 0) {
+                return false;
+            }
             return $src !== $source;
         });
     }
