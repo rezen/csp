@@ -193,11 +193,11 @@ function getExercise($id) {
     [
       "ajax-local"              => 'allow',
       "style-self-external-2"   => 'block', 
-      "iframe-remote-youtube"   => 'allow', 
-      "iframe-remote-youtube-2" => 'allow',
-      "form-local-1"            => '?',
+      "iframe-remote-youtube"   => 'block', 
+      'iframe-remote-vimeo'     => 'allow',
       "eval-2"                  => 'block',
       "embed-pdf"               => 'block',
+      'embed-svg'               => 'allow',
       "stripe-button"           => 'allow',
       'fonts-2'                 => 'allow',
       'worker-1'                => 'allow',
@@ -205,14 +205,15 @@ function getExercise($id) {
     ],
     [
       "ajax-local"              => 'allow',
-      "iframe-remote-youtube"   => 'block', 
-      "iframe-remote-youtube-2" => 'block',
-      "style-inline-nonce"      => 'block',
+      "style-inline-nonce"      => 'allow',
       'inline-js-1'             => 'block', // has no nonce
       'inline-js-2'             => 'allow',
       'external-style'          => 'allow',
       'embed-pdf'               => 'allow',
       'embed-svg'               => 'block',
+      'fonts-1'                 => 'block',
+      'img-src-remote'          => 'allow',
+      "iframe-remote-youtube-2" => 'allow',
     ]
   ];
 
@@ -257,8 +258,8 @@ function updateCSP($csp, $policy, $nonce) {
     $policy->addDirective($directive['name'], $sources);
   }
 
-  $policy->addDirective("style-src", ["'self'"]);
-  $policy->addDirective("script-src", ["'self'"]);
+  // $policy->addDirective("style-src", ["'self'"]);
+  // $policy->addDirective("script-src", ["'self'"]);
 
   return $policy;
 }

@@ -17,10 +17,15 @@
     <!-- ... -->
     <section class="page-width">
       <div id="hide-with-css">If visible, local external css not loaded</div>
-      <p class="embed light">
+      <div class="embed light">
         Try to get the <strong>RAN</strong> column to match the <strong>GOAL</strong>
         column
-      </p>
+        <ul class="list-exercises list-inline">
+          <li>Exercise</li>
+          <li><a href="/exercise.php?e=0">0</a></li>
+          <li><a href="/exercise.php?e=1">1</a></li>
+        </ul>
+      </div>
       <!--
       <pre class="embed"><?php printSafe(explode(";", $policy->toString())); ?></pre>
       -->

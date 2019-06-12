@@ -43,15 +43,24 @@ a, a:visited {
 }
 
 button {
+  opacity: 1;
+  position: relative;
+  top: 0;
   cursor: pointer;
   background: #ccc;
   border: none;
   border-radius: 2px;
-background: rgb(255,255,255); /* Old browsers */
-background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  background: rgb(255,255,255); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
 
+button:hover {
+  opacity: 0.7;
+}
+button:active {
+  top: 1px;
 }
 
 button[type="submit"] {
@@ -201,7 +210,6 @@ textarea {
 
 #csp-report-viewer table {
 	width: 100%;
-	color: white;
 }
 
 #csp-report-viewer table, 
@@ -209,10 +217,15 @@ textarea {
 #csp-report-viewer td {
   border: 1px solid rgba(68, 62, 62, 0.3);
 }
+#csp-report-viewer th {
+  color: white;
+}
 #csp-report-viewer td {
   font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-  font-size: 0.9em;
+  font-size: 0.8em;
+  color:#ccc;
 }
+
 
 [form-repeatable]:nth-child(1) .btn-remove{
   display: none;
@@ -343,6 +356,7 @@ a:hover {
   margin: 0 auto;
   left: calc(50% - 50px);
   width: 100px;
+  background: #555;
 }
 
 #explanation {
@@ -415,6 +429,21 @@ a:hover {
 }
 .block:after {
   content: '⛔';
+}
+
+.list-inline {
+  display: inline-block;
+  list-style: none;
+  padding:0;
+  margin:0;
+}
+.list-inline li{
+  display: inline-block;
+}
+
+
+.list-exercises {  
+  float: right;
 }
 
 @import url('https://fonts.googleapis.com/css?family=Monoton');
