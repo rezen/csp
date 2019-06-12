@@ -1,10 +1,17 @@
-@import url('https://fonts.googleapis.com/css?family=Monoton');
-
-html {
-box-sizing: border-box;
+html, body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  line-height: 1.3em;
 }
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
 *, *:before, *:after {
-box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 hr {
@@ -34,7 +41,9 @@ body {
 a, a:visited {
   color: rgb(66, 126, 255);
 }
+
 button {
+  cursor: pointer;
   background: #ccc;
   border: none;
   border-radius: 2px;
@@ -74,7 +83,7 @@ tr {
 }
 
 td pre {
-  padding:4px 8px;
+  padding:12px 12px;
   text-align: left;
   /*word-wrap: break-word;*/
   max-width: 800px;
@@ -82,8 +91,8 @@ td pre {
   /*display:inline-block;*/
   overflow: hidden;
   background:rgba(0,0,0, 0.3);
-  padding: 4px 12px;
   border-radius: 2px;
+  line-height: 1.4em;
 }
 
 table, th, td {
@@ -292,8 +301,12 @@ textarea {
   background: #eee;
   font-size: 120%;
   font-weight: bold;
+  margin-bottom: 20px;
+  
 }
-
+#main-menu ul {
+  padding-left: 20px;
+}
 #main-menu li {
   display: inline-block;
 }
@@ -392,3 +405,5 @@ a:hover {
 .category-hint code {
   font-weight: bold;
 }
+
+@import url('https://fonts.googleapis.com/css?family=Monoton');
