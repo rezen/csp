@@ -35,6 +35,7 @@
         <th>code</th>
         <th>ran</th>
         <th>goal</th>
+        <th>=</th>
       </tr>
       </thead>
       <tbody>
@@ -53,12 +54,12 @@
           </td>
           <td>
             <?php echo $el['script']['output']; ?>
-            <pre><?php echo trim(str_replace("&gt;&lt;", "&gt;&lt;", htmlentities($el['html']))); ?></pre>
+            <pre><code class="language-html"><?php echo trim(str_replace("&gt;&lt;", "&gt;&lt;", htmlentities($el['html']))); ?></code></pre>
             <?php if (isset($el['script']['src'])): ?>
               js: <?php echo $el['script']['src']; ?>
             <?php endif; ?>
             <?php if (!empty(@$el['script']['source'])): ?>
-              <pre><?php echo @$el['script']['source']; ?></pre>
+            <pre><code class="language-js"><?php echo @$el['script']['source']; ?></code></pre>
             <?php endif; ?>
             </td>
             <td class="col-state"></td>
@@ -75,6 +76,7 @@
                   break;
               } ?>
             </td>
+            <td></td>
           </tr>
       <?php endforeach; ?>
       </tbody>

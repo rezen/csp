@@ -5,7 +5,10 @@ function fixScript($element, $nonce) {
     $script = isset($element['script']) ? $element['script'] : ['inline' => ''] ;
     $element['script']['output'] = '';
     $element['script']['source'] = '';
-  
+
+    if (is_array($script['inline'])) {
+      $script['inline'] = implode("\n", $script['inline']);
+    }
     if (isset($script['inline']) && strlen($script['inline']) > 4) {
       $header = "<script>";
       if ($script['nonce']) {

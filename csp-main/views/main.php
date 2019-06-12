@@ -41,7 +41,7 @@
           </td>
           <td>
             <?php echo $el['script']['output']; ?>
-            <pre><?php echo trim(str_replace("&gt;&lt;", "&gt;&lt;", htmlentities($el['html']))); ?></pre>
+            <pre><code class="language-html"><?php echo trim(str_replace("&gt;&lt;", "&gt;&lt;", htmlentities($el['html']))); ?></code></pre>
             <?php if (isset($el['script']['src'])): ?>
               js: 
               <a href="<?php echo $el['script']['src']; ?>">
@@ -49,7 +49,7 @@
               </a>
             <?php endif; ?>
             <?php if (!empty(@$el['script']['source'])): ?>
-              <pre><?php echo @$el['script']['source']; ?></pre>
+              <pre><code class="language-javascript"><?php echo @$el['script']['source']; ?></code></pre>
             <?php endif; ?>
             </td>
           <td class="status"></td>

@@ -6,8 +6,10 @@
         "html": "<p id=\"{{ id }}\">Original before {{ id }}<\/p>",
         "script": {
             "nonce": false,
-            "inline": 
-                "eval(\"document.getElementById('{{ id }}').textContent='[!] Changed with eval in {{ id }}'\");"
+            "inline": [
+                "var text = '[!] Changed with eval in {{ id }}';",
+                "  eval(\"document.getElementById('{{ id }}').textContent='\" + text + \"'\");"
+            ]
         },
         "csp": {
             "block": {
@@ -62,7 +64,11 @@
     {
         "id": "style-attr",
         "label": "Element with style attribute",
-        "html": "<p id='style-attr' style=\"color:rgb(140, 20, 252)\">Style in element will make it purple<\/p>",
+        "html": [
+            "<p id='style-attr' style=\"color:rgb(140, 20, 252)\">",
+            "  Style in element will make it purple",
+            "<\/p>"
+        ],
         "csp": {},
         "category": "style-src",
         "validate": {
@@ -135,7 +141,11 @@
     {
         "id": "inline-js-1",
         "label": "Inline js without nonce",
-        "html": "<p id=\"{{ id }}\">Inline JavaScript w\/o nonce will change this color to green<\/p>",
+        "html": [
+            "<p id=\"{{ id }}\">",
+            "  Inline JavaScript w\/o nonce will change this color to green",
+            "<\/p>"
+        ],
         "script": {
             "nonce": false,
             "inline": "document.getElementById(\"{{ id }}\").style.color=\"rgb(0, 128, 0)\";"
@@ -505,7 +515,7 @@
         ],
         "script": {
             "domready": [
-                "jQuery(`#script-src-cloudflare`).text(`Changed using jquery from cloudflare cdn`)"
+                "jQuery(`#script-src-cloudflare`)\n  .text(`Changed using jquery from cloudflare cdn`)"
             ],
             "src": "assets\/generated.js"
         },
@@ -523,7 +533,7 @@
         ],
         "script": {
             "domready": [
-                "d3.select(`#script-src-jsdelivr`).text(`Changed using d3 from jsdelivr`);"
+                "d3.select(`#script-src-jsdelivr`)\n  .text(`Changed using d3 from jsdelivr`);"
             ],
             "src": "assets\/generated.js"
         },
