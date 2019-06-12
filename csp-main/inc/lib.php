@@ -34,7 +34,7 @@ function fixScript($element, $nonce) {
       $element['script']['source'] = $output;
       */
       $element['script']['source'] = implode($element['script']['domready'], "\n");
-    } else  if (isset($element['script']['domready'])) {
+    } else  if (isset($element['script']['global'])) {
       $element['script']['source'] = implode($element['script']['global'], "\n");
     }
     return $element;
@@ -197,6 +197,8 @@ function getExercise($id) {
       "embed-pdf"               => 'block',
       "stripe-button"           => 'allow',
       'fonts-2'                 => 'allow',
+      'worker-1'                => 'allow',
+      'iframe-local'            => 'block',
     ],
     [
       "ajax-local"              => 'allow',
