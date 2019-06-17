@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Monoton&display=swap');
+
+
 html, body {
   box-sizing: border-box;
   padding: 0;
@@ -446,7 +449,6 @@ a:hover {
   float: right;
 }
 
-@import url('https://fonts.googleapis.com/css?family=Monoton');
 
 /* PrismJS 1.16.0
 https://prismjs.com/download.html#themes=prism-okaidia&languages=markup+css+clike+javascript */
