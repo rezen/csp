@@ -750,3 +750,6 @@ pre[class*="language-"] {
 .introjs-tooltip {
   color: #444;
 }
+.introjs-tooltiptext code {
+  font-size: 0.9em;
+}
