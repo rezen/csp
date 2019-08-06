@@ -9,12 +9,14 @@
         <button type="Submit">Submit</button>
     <form>
     <script>
-        (function() {
+        ;(function() {
             parent.window.iframeXss = true;
             var el = parent.document.getElementById('iframe-local');
             if (!el) {return;}
             el.innerText = 'Changed from XSS in iframe';
-            alert("From xss.php in iframe" + Object.keys(parent));
+            setTimeout(function() {
+               console.error("From xss.php in iframe" + Object.keys(parent));
+            }, 4000);
         })();
     </script>
 </body>

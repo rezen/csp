@@ -51,7 +51,8 @@ function reportViewer() {
     let d = {
         counter: 0,
         lines: [],
-        shouldEnd: false
+        shouldEnd: false,
+        errors: 0,
     };
 
     el1.style.display = 'block';
@@ -124,9 +125,14 @@ function reportViewer() {
                 cb();
             }
             state.lastSize = lines.length;
+        }).catch(() => {
+            state.errors++;
         })
     }
     let handle = setInterval(function() {
+        if (d.errors > 3) {
+            clearInterval(handle);
+        }
         refresh(d, function() {
             btn.style.display = "block";
             clearInterval(handle);
@@ -176,6 +182,7 @@ function cspForm() {
         var select = el.querySelector('select');
         select.selectedIndex = notSelected()
         form.appendChild(el);
+        addEvents(el);
     }
 
     function addControls(el) {
@@ -194,6 +201,14 @@ function cspForm() {
         rem.innerText = "-";
         rem.className = "btn-remove";
         controls.appendChild(rem);
+    }
+
+    function addEvents(el) {
+        var baeseUrl = 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/';
+        
+        el.querySelector('select').addEventListener('change', function(evt) {
+            el.querySelector('.mdn-link').setAttribute('href', baeseUrl + evt.target.value)
+        });
     }
 
     var counter = document.querySelectorAll('.csp-directive').length;
@@ -216,6 +231,7 @@ function cspForm() {
 
     Array.from(document.querySelectorAll('#csp-form [form-repeatable]')).map(function(el) {
         addControls(el);
+        addEvents(el);
     });
 }
 

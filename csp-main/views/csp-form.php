@@ -6,8 +6,12 @@ $idx = 0;
 <form id="csp-form" method="POST">
     <section id="csp-directives">
         <?php foreach ($policy->directives as $name => $directive): ?>
+            <?php $name = preg_replace('/[^a-z\-]/i', '', $name); ?>
             <?php // if ($directive->isEmpty()) {continue;} ?>
             <div form-repeatable class="csp-directive">
+                <a rel="noopener noreferrer" class="mdn-link" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/<?php echo $name; ?>">
+                    MDN
+                </a>
                 <select name="csp[<?php echo $idx; ?>][name]">
                 <?php foreach ($resolver->getNames() as $i => $opt): ?>
                     <?php if ($opt === $name):  ?>
