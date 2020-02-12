@@ -753,3 +753,15 @@ pre[class*="language-"] {
 .introjs-tooltiptext code {
   font-size: 0.9em;
 }
+.introjs-tooltipbuttons .introjs-donebutton {
+  background-image: none;
+  background-color: rgb(66, 126, 255);
+  color: #fff;
+  border-color: #295aaf;
+  text-shadow: none;
+}
+
+body .introjs-helperNumberLayer{
+  border: none;
+  padding: 4px;
+}
