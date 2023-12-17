@@ -6,12 +6,12 @@
   },
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/api/$1"
+      "src": "/generated_([a-z0-9]+).js",
+      "dest": "/api/generator.php?h=$1"
     },
     {
-      "src": "/generated.js",
-      "dest": "/api/generator.php"
+      "src": "/(.*)",
+      "dest": "/api/$1"
     }
   ]
 }
