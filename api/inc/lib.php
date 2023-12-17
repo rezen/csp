@@ -171,18 +171,14 @@ function printSafe($data) {
 }
 
 function getElements($nonce) {
-  print_r(scandir("."));
-  print_r(scandir("inc"));
-  print_r(scandir("../"));
-
-  $elements = file_get_contents("inc/elements.json");
+  $elements = file_get_contents(__DIR__ . "/elements.json");
   $elements = json_decode($elements, true);
   return fixElements($elements, $nonce);
 }
 
 function generateScript($elements) {
   $embeds = scriptFromElements($elements);
-  $script = file_get_contents("assets/generated.tmpl.js");
+  $script = file_get_contents(__DIR__ . "/assets/generated.tmpl.js");
   
   foreach ($embeds as $key => $embed) {
     $script = str_replace("/*--{$key}--*/", $embed, $script);

@@ -34,7 +34,7 @@ function hexicode($in) {
 <?php
 // https://github.com/berzerk0/Probable-Wordlists
 
-$doc = file_get_contents('passwords.txt');
+$doc = file_get_contents(__DIR__ . '/passwords.txt');
 $hash = md5($doc);
 
 $passwords = explode("\n", $doc);
