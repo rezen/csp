@@ -189,9 +189,9 @@ function generateScript($elements) {
     $script  .= $embed . "\n";
   }
 
-  if ($write) {
-    file_put_contents("/tmp/assets/generated.js", $script);  
-  }
+
+  $request_id = isset($_SERVER['HTTP_X-Vercel-Id']) ? $_SERVER['HTTP_X-Vercel-Id'] : "";
+  file_put_contents("/tmp/${request_id}_generated.js", $script);  
 }
 
 
