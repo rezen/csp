@@ -1,11 +1,26 @@
 {
+  "builds": [
+    {
+      "src": "build_files.sh",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "static"
+      }
+    }
+  ],
   "functions": {
     "api/*.php": {
       "runtime": "vercel-php@0.6.0"
     }
   },
   "routes": [
-    { "src": "/(.*)", "dest": "/api/$1" },
-    { "src": "/generated.js", "dest": "/api/assets/generator.php" }
+    {
+      "src": "/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/generated.js",
+      "dest": "/api/assets/generator.php"
+    }
   ]
 }
