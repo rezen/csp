@@ -24,6 +24,7 @@ function fixScript($element, $nonce) {
         '});',
         '</script>'
       ];
+
       $element['script']['output'] = implode("\n", $lines);
       $element['script']['source'] = htmlentities($element['script']['output']);
     } else  if (isset($element['script']['domready'])) {
@@ -36,9 +37,13 @@ function fixScript($element, $nonce) {
       $output = trim(@$matches[1][0]);
       $element['script']['source'] = $output;
       */
-      $element['script']['source'] = implode($element['script']['domready'], "\n");
+      $tmp = $element['script']['domready'];
+      $tmp = is_array($tmp)  ? implode("\n", $tmp) : $tmp;
+      $element['script']['source'] = $tmp;
     } else  if (isset($element['script']['global'])) {
-      $element['script']['source'] = implode($element['script']['global'], "\n");
+      $tmp = $element['script']['global'];
+      $tmp = is_array($tmp)  ? implode("\n", $tmp) : $tmp;
+      $element['script']['source'] = $tmp;
     }
     return $element;
   }
@@ -68,20 +73,20 @@ function scriptFromElements($elements) {
     $add = $el['script']['domready'] ?? [];
   
     if (is_array($add)) {
-      $add = implode($add, "\n");
+      $add = implode("\n", $add);
     }
 
     if (empty($add)) {
       return $aggr;
     }
 
-    return $aggr . implode([
+    return $aggr . implode("\n", [
       'try {',
       "  " . str_replace("\n", "\n\t", $add),
       "} catch (e) {",
       "  app.csp['$id'] = e;",
       "};\n",
-      ], "\n");
+      ]);
   }, '');
 
   $global = array_reduce($elements, function($aggr, $el) {
@@ -89,20 +94,20 @@ function scriptFromElements($elements) {
     $add = $el['script']['global'] ?? [];
   
     if (is_array($add)) {
-      $add = implode($add, "\n");
+      $add = implode("\n", $add);
     }
 
     if (empty($add)) {
       return $aggr;
     }
 
-    return $aggr . implode([
+    return $aggr . implode("\n", [
       'try {',
       "  " . str_replace("\n", "\n\t", $add),
       "} catch (e) {",
       "  app.csp['$id'] = e;",
       "};\n",
-      ], "\n");
+      ]);
   }, '');
 
   $tests = array_reduce($elements, function($aggr, $el) {
