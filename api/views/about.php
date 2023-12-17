@@ -6,7 +6,7 @@
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One" />
     <link rel="stylesheet" href="assets/app.css?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash($asset_dir . 'app.css'); ?>" />
-    <script src="assets/app.js?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash($asset_dir .  'app.js'); ?>"></script>
+    <script src="assets/main.js?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash($asset_dir .  'main.js'); ?>"></script>
   </head>
   
   <body>
