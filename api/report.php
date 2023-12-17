@@ -2,6 +2,9 @@
 
 require '_loader.php';
 
+$asset_dir = __DIR__ . '/../assets';
+
+
 $should_report = (in_array(getenv('USE_REPORTER'), ['1', 'Y', 'y']));
 
 if (!$should_report) {

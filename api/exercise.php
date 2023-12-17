@@ -10,6 +10,9 @@ $endpoint = ltrim($endpoint, '/');
 $nonce    = uniqid('nonce.', true);
 $nonce    = explode(".", $nonce)[1];
 
+$asset_dir = __DIR__ . '/../assets';
+
+
 $answers = [
   [],
   [

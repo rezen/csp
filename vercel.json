@@ -1,13 +1,5 @@
 {
-  "builds": [
-    {
-      "src": "build_files.sh",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "static"
-      }
-    }
-  ],
+  "builds": [],
   "functions": {
     "api/*.php": {
       "runtime": "vercel-php@0.6.0"

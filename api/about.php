@@ -9,6 +9,8 @@ $endpoint = str_replace(['..'], '', $endpoint);
 $endpoint = ltrim($endpoint, '/');
 $hasher   = \CSP\SourceHasher::create();
 
+$asset_dir = __DIR__ . '/../assets';
+
 header('Cache-Control: no-store');
 header('X-XSS-Protection: 1');
 
