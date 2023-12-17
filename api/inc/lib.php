@@ -6,7 +6,7 @@ function fixScript($element, $nonce) {
     $element['script']['output'] = '';
     $element['script']['source'] = '';
 
-    if (is_array($script['inline'])) {
+    if (isset($script['inline']) && is_array($script['inline'])) {
       $script['inline'] = implode("\n", $script['inline']);
     }
     if (isset($script['inline']) && strlen($script['inline']) > 4) {
