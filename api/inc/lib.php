@@ -183,12 +183,15 @@ function getElements($nonce) {
 
 function generateScript($elements) {
   $embeds = scriptFromElements($elements);
-  $script = file_get_contents(__DIR__ . "/../assets/generated.tmpl.js");
+  $script =  "";
   
   foreach ($embeds as $key => $embed) {
-    $script = str_replace("/*--{$key}--*/", $embed, $script);
+    $script  .= $embed . "\n";
   }
-  file_put_contents(__DIR__ . "/../assets/generated.js", $script);  
+
+  if ($write) {
+    file_put_contents("/tmp/assets/generated.js", $script);  
+  }
 }
 
 

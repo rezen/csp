@@ -5,6 +5,7 @@
     }
   },
   "routes": [
-    { "src": "/(.*)", "dest": "/api/$1" }
+    { "src": "/(.*)", "dest": "/api/$1" },
+    { "src": "/generated.js", "dest": "/api/assets/generator.php" }
   ]
 }

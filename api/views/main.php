@@ -4,9 +4,9 @@
     <!--pagehash-->
     <meta data-doc-id="<?php echo $doc_id ?>" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One" />
-    <link rel="stylesheet" href="assets/app.css?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash('assets/app.css'); ?>" />
+    <link rel="stylesheet" href="assets/app.css?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash($asset_dir . 'app.css'); ?>" />
     <link rel="stylesheet" href="http://sneaker:8100/assets/bad.php?v=<?php echo time();  ?>" />
-    <script src="assets/generated.js?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash('assets/generated.js'); ?>"></script>
+    <script src="assets/app.js?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash($asset_dir . 'app.js'); ?>"></script>
     <meta id="reporter-ws" value="<?php echo getenv('REPORTER_WS'); ?>" />
   </head>
   

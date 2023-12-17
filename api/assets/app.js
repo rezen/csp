@@ -235,11 +235,6 @@ function cspForm() {
     });
 }
 
-function runDomready() {
-    /*--domready--*/
-}
-
-
 (function handlingPostMessages() {
     var messages = window.messages = {};
     window.addEventListener("message", function(evt) {

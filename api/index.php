@@ -12,9 +12,11 @@ $nonce    = uniqid('nonce.', true);
 $nonce    = explode(".", $nonce)[1];
 $doc_id   = uniqid();
 
+$asset_dir = __DIR__ . '/assets';
+
 
 $elements = getElements($nonce);
-generateScript($elements);
+$generated_script = generateScript($elements);
 
 $report_url = "{$baseurl}/report.php?id={$doc_id}";
 $hasher      = \CSP\SourceHasher::create();
