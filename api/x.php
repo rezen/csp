@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
+require '_loader.php';
 
 
 $client = new Hoa\Websocket\Client(

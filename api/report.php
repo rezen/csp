@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
+require '_loader.php';
 
 $should_report = (in_array(getenv('USE_REPORTER'), ['1', 'Y', 'y']));
 

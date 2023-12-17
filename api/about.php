@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
+require '_loader.php';
 
 $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,strpos( $_SERVER["SERVER_PROTOCOL"],'/'))).'://';
 $baseurl  = "$protocol{$_SERVER['HTTP_HOST']}";
