@@ -9,6 +9,8 @@ class Policy
 
     public $nonce;
 
+    public $resolver;
+
     function __construct($resolver, $directives = [])
     {
         $this->resolver = $resolver;

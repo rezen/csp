@@ -2,6 +2,8 @@
 
 class SourceHasher
 {
+    public $http;
+    public $fs;
     function __construct($http, $fs)
     {
         $this->http = $http;

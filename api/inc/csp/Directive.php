@@ -28,6 +28,9 @@ class Directive
         'filesystem:',
     ];
 
+    public $name;
+    public $sources;
+    
     function __construct($name)
     {
         $this->name = $name;

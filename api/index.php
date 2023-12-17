@@ -19,7 +19,7 @@ generateScript($elements);
 $report_url = "{$baseurl}/report.php?id={$doc_id}";
 $hasher      = \CSP\SourceHasher::create();
 $policy      = \CSP\Policy::create();
-$policy      = updateCSP($_POST['csp'], $policy, $nonce);
+$policy      = updateCSP(isset($_POST['csp']) ?$_POST['csp'] : null, $policy, $nonce);
 
 $should_report = (in_array(getenv('USE_REPORTER'), ['1', 'Y', 'y']));
 
