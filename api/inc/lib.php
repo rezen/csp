@@ -171,6 +171,10 @@ function printSafe($data) {
 }
 
 function getElements($nonce) {
+  print_r(scandir("."));
+  print_r(scandir("inc"));
+  print_r(scandir("../"));
+
   $elements = file_get_contents("inc/elements.json");
   $elements = json_decode($elements, true);
   return fixElements($elements, $nonce);

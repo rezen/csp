@@ -2,7 +2,7 @@
 The best way to learn CSP is to play with policy creation & see how policies affect
 resources on the page!
 
-You can play with CSP at https://csp-main.herokuapp.com/ or by running locally. When you run locally you have the added benefit of CSP violation reporting being displayed in page.
+When you run locally you have the added benefit of CSP violation reporting being displayed in page.
 
 ```sh
 # Run with docker ....
