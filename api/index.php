@@ -3,23 +3,10 @@
 require '_loader.php';
 
 
-$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,strpos( $_SERVER["SERVER_PROTOCOL"],'/'))).'://';
-$baseurl  = "$protocol{$_SERVER['HTTP_HOST']}";
-$endpoint = $_SERVER["REQUEST_URI"];
-$endpoint = str_replace(['..'], '', $endpoint);
-$endpoint = ltrim($endpoint, '/');
-$nonce    = uniqid('nonce.', true);
-$nonce    = explode(".", $nonce)[1];
-$doc_id   = uniqid();
-
-$asset_dir = __DIR__ . '/../static';
-
-
 $elements = getElements($nonce);
 $generated_script = generateScript($elements);
 
 $report_url = "{$baseurl}/report.php?id={$doc_id}";
-$hasher      = \CSP\SourceHasher::create();
 $policy      = \CSP\Policy::create();
 $policy      = updateCSP(isset($_POST['csp']) ?$_POST['csp'] : null, $policy, $nonce);
 

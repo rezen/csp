@@ -2,15 +2,7 @@
 
 require '_loader.php';
 
-$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,strpos( $_SERVER["SERVER_PROTOCOL"],'/'))).'://';
-$baseurl  = "$protocol{$_SERVER['HTTP_HOST']}";
-$endpoint = $_SERVER["REQUEST_URI"];
-$endpoint = str_replace(['..'], '', $endpoint);
-$endpoint = ltrim($endpoint, '/');
-$nonce    = uniqid('nonce.', true);
-$nonce    = explode(".", $nonce)[1];
 
-$asset_dir = __DIR__ . '/../static';
 
 
 $answers = [
@@ -48,7 +40,7 @@ $should_report = (in_array(getenv('USE_REPORTER'), ['1', 'Y', 'y']));
 $hasher = \CSP\SourceHasher::create();
 $policy = \CSP\Policy::create();
 
-$policy = updateCSP($_POST['csp'], $policy, $nonce);
+$policy = updateCSP(isset($_POST['csp']) ? $_POST['csp'] : null, $policy, $nonce);
 
 
 if (empty($_POST['csp'])) {

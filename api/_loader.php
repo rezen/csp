@@ -1,7 +1,18 @@
 <?php
 
+$doc_id   = uniqid();
+
+
+$protocol  = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,strpos( $_SERVER["SERVER_PROTOCOL"],'/'))).'://';
+$baseurl   = "$protocol{$_SERVER['HTTP_HOST']}";
+$endpoint  = $_SERVER["REQUEST_URI"];
+$endpoint  = str_replace(['..'], '', $endpoint);
+$endpoint  = ltrim($endpoint, '/');
+$nonce     = uniqid('nonce.', true);
+$nonce     = explode(".", $nonce)[1];
 $request_id = md5(isset($_SERVER['HTTP_X-Vercel-Id']) ? $_SERVER['HTTP_X-Vercel-Id'] : "");
-$asset_dir = __DIR__ . '/../static';
+$asset_dir  = __DIR__ . '/../static';
+$hasher     = \CSP\SourceHasher::create();
 
 
 if (file_exists('vendor/autoload.php')) {

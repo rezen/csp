@@ -2,8 +2,6 @@
 
 require '_loader.php';
 
-$asset_dir = __DIR__ . '/../static';
-
 
 $should_report = (in_array(getenv('USE_REPORTER'), ['1', 'Y', 'y']));
 
