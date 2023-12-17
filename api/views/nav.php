@@ -11,7 +11,7 @@
         </li>
         <li class="github-link">
             <a href="https://github.com/rezen/csp">
-                <img src="assets/github.svg" height="30" width="30" /> source
+                <img src="static/github.svg" height="30" width="30" /> source
             </a>
         </li>
     </ul>

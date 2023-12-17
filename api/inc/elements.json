@@ -29,7 +29,7 @@
             "domready": [
                 "new Function(`document.getElementById('eval-2').textContent='[!] Changed from external using new Function()'`)();"
             ],
-            "src": "assets\/generated.js",
+            "src": "static\/generated.js",
             "nonce": false
         },
         "csp": {
@@ -47,7 +47,7 @@
         "label": "Eval from with nonce",
         "html": "<p id=\"{{ id }}\">Original before {{ id }}<\/p>",
         "script": {
-            "src": "assets\/generated.js",
+            "src": "static\/generated.js",
             "nonce": true,
             "inline": "eval(\"document.getElementById('{{ id }}').textContent='[!] Changed with eval with nonce'\");"
         },
@@ -275,7 +275,7 @@
         "id": "video-src-local",
         "label": "Local video",
         "html": [
-            "<video width=\"400\" src=\"assets\/video-1.mp4\" controls \/>"
+            "<video width=\"400\" src=\"static\/video-1.mp4\" controls \/>"
         ],
         "category": "media-src",
         "validate": {
@@ -286,7 +286,7 @@
         "id": "video-src-remote",
         "label": "remote video",
         "html": [
-            "<video width=\"400\" src=\"http://sneaker:8100/assets\/video-1.mp4\" controls \/>"
+            "<video width=\"400\" src=\"http://sneaker:8100/static\/video-1.mp4\" controls \/>"
         ],
         "category": "media-src",
         "validate": {
@@ -307,7 +307,7 @@
     {
         "id": "img-src-local-1",
         "label": "Local image",
-        "html": "<img src='assets\/pic-1.jpg' height='200' alt='Same source' \/>",
+        "html": "<img src='static\/pic-1.jpg' height='200' alt='Same source' \/>",
         "category": "img-src",
         "validate": {
             "allow": "document.querySelector(`[data-id='{{ id }}'] img`).hasAttribute('data-loaded')"
@@ -316,7 +316,7 @@
     {
         "id": "img-src-local-2",
         "label": "Local image",
-        "html": "<img nonce='{{ nonce }}' src='assets\/pic-1.jpg' height='200' alt='Same source' \/>",
+        "html": "<img nonce='{{ nonce }}' src='static\/pic-1.jpg' height='200' alt='Same source' \/>",
         "category": "img-src",
         "validate": {
             "allow": "document.querySelector(`[data-id='{{ id }}'] img`).hasAttribute('data-loaded')"
@@ -405,7 +405,7 @@
                 "        el.textContent = err;",
                 "    });"
             ],
-            "src": "assets\/generated.js"
+            "src": "static\/generated.js"
         },
         "validate": {
             "allow": "document.getElementById('{{ id }}').textContent.indexOf('Changed message from AJAX') >= 0"
@@ -448,7 +448,7 @@
                 "}, 1000);",
                 ""
             ],
-            "src": "assets\/generated.js"
+            "src": "static\/generated.js"
         },
         "validate": {
             "allow": "document.querySelectorAll('#stripe-button.opened').length > 0"
@@ -472,7 +472,7 @@
         "id": "media-audio",
         "label": "Local audio",
         "html": [
-            "<audio src='assets\/eddy_-_01_-_Pure_Adrenaline.mp3' controls \/>",
+            "<audio src='static\/eddy_-_01_-_Pure_Adrenaline.mp3' controls \/>",
             "<a href='http:\/\/freemusicarchive.org\/music\/eddy\/2_Damn_Loud\/Pure_Adrenaline_mastered-with-CloudBounce'>Source<\/a>"
         ],
         "category": "media-src",
@@ -484,7 +484,7 @@
         "id": "embed-pdf",
         "label": "Local embed",
         "html": [
-            "<embed src=\"assets\/smashing-the-stack.pdf\" type=\"application\/pdf\" width=\"400\" height=\"225\">",
+            "<embed src=\"static\/smashing-the-stack.pdf\" type=\"application\/pdf\" width=\"400\" height=\"225\">",
             "<\/embed>"
         ],
         "category": "plugin-types object-src",
@@ -496,7 +496,7 @@
         "id": "embed-svg",
         "label": "Local embed svg",
         "html": [
-            "<embed src=\"assets\/jquery.svg\" type=\"image\/svg+xml\" width=\"400\" height=\"225\">",
+            "<embed src=\"static\/jquery.svg\" type=\"image\/svg+xml\" width=\"400\" height=\"225\">",
             "<\/embed>"
         ],
         "category": "plugin-types object-src",
@@ -517,7 +517,7 @@
             "domready": [
                 "jQuery(`#script-src-cloudflare`)\n  .text(`Changed using jquery from cloudflare cdn`)"
             ],
-            "src": "assets\/generated.js"
+            "src": "static\/generated.js"
         },
         "category": "script-src",
         "validate": {
@@ -535,7 +535,7 @@
             "domready": [
                 "d3.select(`#script-src-jsdelivr`)\n  .text(`Changed using d3 from jsdelivr`);"
             ],
-            "src": "assets\/generated.js"
+            "src": "static\/generated.js"
         },
         "category": "script-src",
         "validate": {
@@ -563,7 +563,7 @@
             "global": [
                 "(function(){",
                 "  if (!window.Worker) { return;}",
-                "  const worker = new Worker('/assets/worker.js');",
+                "  const worker = new Worker('/static/worker.js');",
                 "  worker.onerror = function(e) {};",
                 "  worker.onmessage = function(e) {",
                 "    var el = document.getElementById('worker-1');",    

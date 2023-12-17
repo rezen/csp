@@ -8,7 +8,7 @@ RUN curl --silent --show-error https://getcomposer.org/installer | php && mv com
 RUN ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 RUN mkdir -p /var/www/html/logs
 COPY ./vendor /var/www/html/
-COPY ./assets ./inc ./views  /var/www/html/
+COPY ./static ./inc ./views  /var/www/html/
 COPY about.php \
     ajax.php \
     index.php \
