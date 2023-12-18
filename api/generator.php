@@ -9,5 +9,6 @@ $file = "/tmp/{$request_id}_generated.js";
 if (file_exists($file)) {
     echo file_get_contents($file);
 } else {
-    echo "console.log('Could not find $file');";
+    $files = scandir("/tmp");
+    echo "console.log('Could not find $file - " . json_encode($files) . "');";
 }
