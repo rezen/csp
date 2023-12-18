@@ -21,10 +21,6 @@ open http://localhost:8100/
 - Setup app for "bad actor" exfil
 
 ### Deploy
-```sh
-heroku create
-git subtree push --prefix csp-main heroku master
-```
 
 ### Links
 - https://www.html5rocks.com/en/tutorials/security/content-security-policy/
