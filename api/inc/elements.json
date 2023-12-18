@@ -191,7 +191,7 @@
             ".google-font{font-family: 'Alfa Slab One';}"
         ],
         "validate": {
-            "allow": "Array.from(document.fonts.keys()).some(f => f.family.indexOf('Alfa Slab') >= 0)"
+            "allow": "document.fonts.check('16px Alfa Slab')"
         },
         "category": "style-src font-src"
     },
@@ -205,7 +205,7 @@
         ],
         "category": "style-src font-src",
         "validate": {
-            "allow": "Array.from(document.fonts.keys()).some(f => f.family.indexOf('Monoton') >= 0)"
+            "allow": "document.fonts.check('16px Monoton')"
         }
 
     },
