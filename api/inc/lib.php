@@ -189,7 +189,7 @@ function generateScript($elements) {
     $script  .= $embed . "\n";
   }
 
-  $request_id = md5(isset($_SERVER['HTTP_X-Vercel-Id']) ? $_SERVER['HTTP_X-Vercel-Id'] : "");
+  $request_id = md5(isset($_SERVER['HTTP_X_VERCEL_ID']) ? $_SERVER['HTTP_X_VERCEL_ID'] : "");
   file_put_contents("/tmp/{$request_id}", $script);  
 }
 

@@ -9,7 +9,7 @@ $endpoint  = str_replace(['..'], '', $endpoint);
 $endpoint  = ltrim($endpoint, '/');
 $nonce     = uniqid('nonce.', true);
 $nonce     = explode(".", $nonce)[1];
-$request_id = md5(isset($_SERVER['HTTP_X-Vercel-Id']) ? $_SERVER['HTTP_X-Vercel-Id'] : "");
+$request_id = md5(isset($_SERVER['HTTP_X_VERCEL_ID']) ? $_SERVER['HTTP_X_VERCEL_ID'] : "");
 $asset_dir  = __DIR__ . '/../static';
 
 if (file_exists('vendor/autoload.php')) {
