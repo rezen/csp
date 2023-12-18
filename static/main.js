@@ -2,6 +2,7 @@
 
 window.executed = {};
 window.app = {csp: {}};
+window.tests={};
 
 window.onYouTubeIframeAPIReady = function() {
     Array.from(document.querySelectorAll('[data-youtube]')).map(function(el) {

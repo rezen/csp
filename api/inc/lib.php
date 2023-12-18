@@ -190,7 +190,7 @@ function generateScript($elements) {
   }
 
   $request_id = md5(isset($_SERVER['HTTP_X-Vercel-Id']) ? $_SERVER['HTTP_X-Vercel-Id'] : "");
-  file_put_contents("/tmp/{$request_id}_generated.js", $script);  
+  echo file_put_contents("/tmp/{$request_id}", $script);  
 }
 
 
@@ -325,3 +325,6 @@ function logCspFs($doc_id, $violation, $log_dir) {
   file_put_contents("$log_dir/policy-$hash.log", "$as_string\n", FILE_APPEND);
   cleanupLogs();
 }
+
+$elements = getElements("XXX");
+generateScript($elements);
