@@ -190,7 +190,7 @@ function generateScript($elements) {
   }
 
   $request_id = md5(isset($_SERVER['HTTP_X-Vercel-Id']) ? $_SERVER['HTTP_X-Vercel-Id'] : "");
-  echo file_put_contents("/tmp/{$request_id}", $script);  
+  file_put_contents("/tmp/{$request_id}", $script);  
 }
 
 
@@ -326,5 +326,3 @@ function logCspFs($doc_id, $violation, $log_dir) {
   cleanupLogs();
 }
 
-$elements = getElements("XXX");
-generateScript($elements);
