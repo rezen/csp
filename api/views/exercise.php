@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="http://sneaker:8100/static/bad.php?v=<?php echo time();  ?>" />
     <script src="static/main.js?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash($asset_dir . '/main.js'); ?>"></script>
     <script src="static/intro.min.js?v=<?php echo time();  ?>" integrity="<?php echo $hasher->hash($asset_dir . '/intro.min.js'); ?>"></script>
+    <script src="generated.js?id=0"></script>
     <meta id="reporter-ws" value="<?php echo getenv('REPORTER_WS'); ?>" />
   </head>
   

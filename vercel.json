@@ -6,7 +6,7 @@
   },
   "routes": [
     {
-      "src": "/generated_([a-z0-9]+).js",
+      "src": "/generated.js",
       "dest": "/api/generator.php?h=$1"
     },
     {
