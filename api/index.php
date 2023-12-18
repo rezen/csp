@@ -4,7 +4,6 @@ require '_loader.php';
 
 
 $elements = getElements($nonce);
-generateScript($elements);
 
 $report_url = "{$baseurl}/report.php?id={$doc_id}";
 $policy      = \CSP\Policy::create();

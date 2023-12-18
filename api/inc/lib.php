@@ -188,9 +188,7 @@ function generateScript($elements) {
   foreach ($embeds as $key => $embed) {
     $script  .= $embed . "\n";
   }
-
-  $request_id = md5(isset($_SERVER['HTTP_X_VERCEL_ID']) ? $_SERVER['HTTP_X_VERCEL_ID'] : "");
-  file_put_contents("/tmp/{$request_id}", $script);  
+  return [$script, md5($script)];
 }
 
 

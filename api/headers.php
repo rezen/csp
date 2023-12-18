@@ -2,7 +2,7 @@
 
 header('Content-Type: text/plain');
 
-echo $_SERVER['HTTP_X-Vercel-Id'];
+echo isset($_SERVER['HTTP_X_VERCEL_ID']) ? $_SERVER['HTTP_X_VERCEL_ID'] : "");
 echo "\n-------------------------\n";
 
 foreach ($_SERVER as $key => $value) {

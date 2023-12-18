@@ -21,7 +21,6 @@ $ids = array_keys($exercise);
 sort($ids);
 
 $elements = getElements($nonce);
-generateScript($elements);
 
 $elements = array_filter($elements, function($el) use ($exercise) {
   return isset($exercise[$el["id"]]);
