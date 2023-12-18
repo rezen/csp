@@ -445,7 +445,7 @@
                 "  var el = document.querySelector('[name=stripe_checkout_app]');",
                 "  if (!el) {return;}",            
                 "  el.style.display='none';",
-                "}, 1000);",
+                "}, 5000);",
                 ""
             ],
             "src": "generated.js"
